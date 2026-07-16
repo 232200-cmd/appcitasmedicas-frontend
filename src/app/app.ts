@@ -1,6 +1,6 @@
-import { Component, inject, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterOutlet, RouterModule, Router } from '@angular/router';
+import { Component, inject, signal, computed, OnInit } from '@angular/core';
+import { CommonModule, Location } from '@angular/common';
+import { RouterOutlet, RouterModule, Router, NavigationEnd } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { DrawerModule } from 'primeng/drawer';
 import { TooltipModule } from 'primeng/tooltip';
@@ -24,11 +24,17 @@ import { AuthService } from './auth/auth.service';
     templateUrl: './app.html',
     styleUrls: ['./app.css']
 })
-export class App {
+export class App implements OnInit {
     authService = inject(AuthService);
     private router = inject(Router);
+    private location = inject(Location);
 
     sidebarVisible = signal<boolean>(false);
+
+    // Historial propio de navegación DENTRO de la app (no el del navegador).
+    // Se usa para mostrar/ocultar el botón "Atrás" del sistema.
+    private historyStack: string[] = [];
+    canGoBack = signal<boolean>(false);
 
     navItems = computed(() => {
         if (this.authService.isAdmin()) {
@@ -43,6 +49,22 @@ export class App {
             { label: 'Nueva cita', icon: 'pi pi-plus-circle', routerLink: '/appointment/insert' }
         ];
     });
+
+    ngOnInit(): void {
+        this.router.events.subscribe((event) => {
+            if (event instanceof NavigationEnd) {
+                this.historyStack.push(event.urlAfterRedirects);
+                this.canGoBack.set(this.historyStack.length > 1);
+            }
+        });
+    }
+
+    goBack(): void {
+        if (this.historyStack.length > 1) {
+            this.historyStack.pop();
+            this.location.back();
+        }
+    }
 
     toggleSidebar(): void {
         this.sidebarVisible.update(visible => !visible);

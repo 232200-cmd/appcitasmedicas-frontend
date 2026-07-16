@@ -1,4 +1,7 @@
 <div class="detail-wrapper">
+    <p-button icon="pi pi-arrow-left" label="Volver a citas" [text]="true" styleClass="back-btn"
+        (onClick)="goToList()" />
+
     @if (appointment) {
     <div class="detail-header">
         <p class="detail-title">Cita {{ appointment.code }}</p>
@@ -7,7 +10,6 @@
     </div>
 
     <div class="detail-layout">
-        <!-- Columna principal -->
         <div class="detail-main">
             <p-card styleClass="section-card">
                 <ng-template #content>
@@ -33,7 +35,6 @@
                 </ng-template>
             </p-card>
 
-            <!-- Comentarios internos: SOLO visibles para el Administrador -->
             @if (authService.isAdmin()) {
             <p-card styleClass="section-card">
                 <ng-template #content>
@@ -66,6 +67,7 @@
                 </ng-template>
             </p-card>
             }
+
             @if (authService.isAdmin()) {
             <div class="action-buttons-row">
                 <p-button label="Coordinar cita" severity="success" styleClass="action-btn"
@@ -77,10 +79,12 @@
             </div>
             }
         </div>
+
         <div class="detail-side">
             <p-card styleClass="section-card">
                 <ng-template #content>
                     <p class="section-title">Información de la cita</p>
+
                     <div class="info-row">
                         <span class="info-label">Código</span>
                         <span class="code-tag">{{ appointment.code }}</span>
@@ -98,11 +102,12 @@
                         <span class="info-value">{{ appointment.doctorFullName }}</span>
                     </div>
                     <div class="info-row">
-                        <span class="info-label">Fecha de la cita</span>
+                        <span class="info-label">Fecha preferida</span>
                         <span class="info-value">{{ appointment.preferredDate | date:'d MMM yyyy' }}</span>
                     </div>
                 </ng-template>
             </p-card>
+
             <p-card styleClass="section-card">
                 <ng-template #content>
                     <p class="section-title">Estado del proceso</p>

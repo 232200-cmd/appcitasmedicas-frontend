@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ButtonModule } from 'primeng/button';
@@ -44,6 +44,7 @@ export class AppointmentDetail implements OnInit {
     private confirmationService = inject(ConfirmationService);
     private messageService = inject(MessageService);
     private route = inject(ActivatedRoute);
+    private router = inject(Router);
     private cdr = inject(ChangeDetectorRef);
     private http = inject(HttpClient);
     authService = inject(AuthService);
@@ -76,6 +77,11 @@ export class AppointmentDetail implements OnInit {
             this.appointment = data.listAppointment.find((a: any) => a.idAppointment === idAppointment) || data.listAppointment[0];
             this.cdr.detectChanges();
         });
+    }
+
+    goToList(): void {
+        const destination = this.authService.isAdmin() ? '/appointment/getall' : '/appointment/my-appointments';
+        this.router.navigate([destination]);
     }
 
     getInitials(name: string): string {

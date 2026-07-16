@@ -1,4 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
@@ -38,6 +39,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 export class AppointmentInsert implements OnInit {
     private confirmationService = inject(ConfirmationService);
     private messageService = inject(MessageService);
+    private router = inject(Router);
 
     frmInsertAppointment: FormGroup;
 
@@ -171,5 +173,9 @@ export class AppointmentInsert implements OnInit {
             },
             reject: () => { }
         });
+    }
+
+    goBack(): void {
+        this.router.navigate(['/appointment/my-appointments']);
     }
 }

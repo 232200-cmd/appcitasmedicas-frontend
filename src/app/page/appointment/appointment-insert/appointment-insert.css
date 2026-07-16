@@ -3,6 +3,13 @@
     margin: 0 auto;
 }
 
+:host ::ng-deep .back-btn {
+    color: #0f3a5f !important;
+    font-weight: 500;
+    padding-left: 0 !important;
+    margin-bottom: 0.5rem;
+}
+
 .page-title {
     font-size: 1.6rem;
     font-weight: 700;

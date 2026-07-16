@@ -2,50 +2,47 @@
 <p-confirmdialog />
 <div class="layout-container">
     @if (authService.isLoggedIn()) {
-        <header class="layout-topbar">
-            <div class="topbar-left">
-                <p-button icon="pi pi-bars" [text]="true" styleClass="topbar-menu-btn" (onClick)="toggleSidebar()" />
-                <i class="pi pi-heart-fill topbar-icon"></i>
-                <span class="app-logo">MediCita</span>
-            </div>
-            <nav class="topbar-nav">
-                @if (authService.isAdmin()) {
-                    <a routerLink="/appointment/dashboard" routerLinkActive="nav-active" class="topbar-link">Inicio</a>
-                    <a routerLink="/appointment/getall" routerLinkActive="nav-active" class="topbar-link">Citas</a>
-                    <a routerLink="/doctor/getall" routerLinkActive="nav-active" class="topbar-link">Doctores</a>
-                    <a routerLink="/specialty/getall" routerLinkActive="nav-active" class="topbar-link">Especialidades</a>
-                } @else {
-                    <a routerLink="/appointment/insert" routerLinkActive="nav-active" class="topbar-link">Nueva cita</a>
-                }
-            </nav>
-            <div class="topbar-right">
-                <span class="user-name">{{ authService.currentUser()?.firstName }}</span>
-                <span class="role-badge" [class.role-admin]="authService.isAdmin()">{{ authService.currentUser()?.role }}</span>
-                <p-button icon="pi pi-sign-out" [text]="true" styleClass="topbar-menu-btn" (onClick)="logout()" pTooltip="Cerrar sesión" />
-            </div>
-        </header>
-        <div class="layout-body">
-            <p-drawer [(visible)]="sidebarVisible" header="Menú de Navegación">
-                <div class="sidebar-content">
-                    <ul class="nav-list">
-                        @for(item of navItems(); track item.label) {
-                            <li>
-                                <a [routerLink]="item.routerLink" class="nav-link" routerLinkActive="active-link" (click)="sidebarVisible.set(false)">
-                                    <i [class]="item.icon"></i>
-                                    <span>{{ item.label }}</span>
-                                </a>
-                            </li>
-                        }
-                    </ul>
-                </div>
-            </p-drawer>
-            <main class="layout-main">
-                <div class="content-wrapper">
-                    <router-outlet />
-                </div>
-            </main>
+    <header class="layout-topbar">
+        <div class="topbar-left">
+            <p-button icon="pi pi-bars" [text]="true" styleClass="topbar-menu-btn" (onClick)="toggleSidebar()" />
+            @if (canGoBack()) {
+            <p-button icon="pi pi-arrow-left" [text]="true" styleClass="topbar-menu-btn" (onClick)="goBack()"
+                pTooltip="Atrás" />
+            }
+            <i class="pi pi-heart-fill topbar-icon"></i>
+            <span class="app-logo">MediCita</span>
         </div>
+        <div class="topbar-right">
+            <span class="user-name">{{ authService.currentUser()?.firstName }}</span>
+            <span class="role-badge" [class.role-admin]="authService.isAdmin()">{{ authService.currentUser()?.role
+                }}</span>
+            <p-button icon="pi pi-sign-out" [text]="true" styleClass="topbar-menu-btn" (onClick)="logout()"
+                pTooltip="Cerrar sesión" />
+        </div>
+    </header>
+    <div class="layout-body">
+        <p-drawer [(visible)]="sidebarVisible" header="Menú de Navegación">
+            <div class="sidebar-content">
+                <ul class="nav-list">
+                    @for(item of navItems(); track item.label) {
+                    <li>
+                        <a [routerLink]="item.routerLink" class="nav-link" routerLinkActive="active-link"
+                            (click)="sidebarVisible.set(false)">
+                            <i [class]="item.icon"></i>
+                            <span>{{ item.label }}</span>
+                        </a>
+                    </li>
+                    }
+                </ul>
+            </div>
+        </p-drawer>
+        <main class="layout-main">
+            <div class="content-wrapper">
+                <router-outlet />
+            </div>
+        </main>
+    </div>
     } @else {
-        <router-outlet />
+    <router-outlet />
     }
 </div>
