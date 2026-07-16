@@ -1,0 +1,134 @@
+<div class="detail-wrapper">
+    @if (appointment) {
+    <div class="detail-header">
+        <p class="detail-title">Cita {{ appointment.code }}</p>
+        <p class="detail-subtitle">{{ appointment.personFullName }} · Solicitada el {{ appointment.createdAt | date:"d
+            'de' MMMM 'de' yyyy" }}</p>
+    </div>
+
+    <div class="detail-layout">
+        <!-- Columna principal -->
+        <div class="detail-main">
+            <p-card styleClass="section-card">
+                <ng-template #content>
+                    <p class="section-title">Motivo de consulta</p>
+                    <p class="section-text">{{ appointment.description }}</p>
+                </ng-template>
+            </p-card>
+
+            <p-card styleClass="section-card">
+                <ng-template #content>
+                    <p class="section-title">Archivos adjuntos</p>
+                    @if (appointment.files.length === 0) {
+                    <p class="text-muted">No se adjuntaron archivos.</p>
+                    }
+                    <div class="file-chip-list">
+                        @for (file of appointment.files; track file.idAppointmentfile) {
+                        <span class="file-chip file-chip-clickable" (click)="downloadFile(file)">
+                            <i class="pi pi-file"></i>{{ file.name }}
+                            <i class="pi pi-download download-icon"></i>
+                        </span>
+                        }
+                    </div>
+                </ng-template>
+            </p-card>
+
+            <!-- Comentarios internos: SOLO visibles para el Administrador -->
+            @if (authService.isAdmin()) {
+            <p-card styleClass="section-card">
+                <ng-template #content>
+                    <p class="section-title">Comentarios internos</p>
+
+                    <div class="comments-list">
+                        @if (appointment.comments.length === 0) {
+                        <p class="text-muted">Sin comentarios aún.</p>
+                        }
+                        @for (comment of appointment.comments; track $index) {
+                        <div class="comment-item">
+                            <p-avatar [label]="getInitials(comment.authorName)" shape="circle"
+                                styleClass="comment-avatar" />
+                            <div class="comment-body">
+                                <div class="comment-meta">
+                                    <span class="comment-author">{{ comment.authorName || 'Usuario' }}</span>
+                                    <span class="comment-date">{{ comment.createdAt | date:'d MMM yyyy, HH:mm' }}</span>
+                                </div>
+                                <div class="comment-bubble">{{ comment.description }}</div>
+                            </div>
+                        </div>
+                        }
+                    </div>
+
+                    <div class="comment-input-row">
+                        <input pInputText [(ngModel)]="newComment" placeholder="Escribir un comentario interno..."
+                            class="w-full" />
+                        <p-button label="Enviar" icon="pi pi-send" (click)="sendComment()" />
+                    </div>
+                </ng-template>
+            </p-card>
+            }
+            @if (authService.isAdmin()) {
+            <div class="action-buttons-row">
+                <p-button label="Coordinar cita" severity="success" styleClass="action-btn"
+                    (click)="coordinateAppointment($event)" />
+                <p-button label="Rechazar" severity="danger" styleClass="action-btn"
+                    (click)="rejectAppointment($event)" />
+                <p-button label="Cerrar caso" styleClass="action-btn action-btn-navy"
+                    (click)="closeAppointment($event)" />
+            </div>
+            }
+        </div>
+        <div class="detail-side">
+            <p-card styleClass="section-card">
+                <ng-template #content>
+                    <p class="section-title">Información de la cita</p>
+                    <div class="info-row">
+                        <span class="info-label">Código</span>
+                        <span class="code-tag">{{ appointment.code }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Estado</span>
+                        <p-tag [value]="appointment.status" [severity]="getSeverity(appointment.status)" />
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Especialidad</span>
+                        <span class="info-value">{{ appointment.specialtyName }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Doctor</span>
+                        <span class="info-value">{{ appointment.doctorFullName }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Fecha de la cita</span>
+                        <span class="info-value">{{ appointment.preferredDate | date:'d MMM yyyy' }}</span>
+                    </div>
+                </ng-template>
+            </p-card>
+            <p-card styleClass="section-card">
+                <ng-template #content>
+                    <p class="section-title">Estado del proceso</p>
+
+                    <div class="timeline">
+                        @for (step of processSteps; track step.key) {
+                        <div class="timeline-item">
+                            <div class="timeline-marker" [ngClass]="getStepClass(step.key)">
+                                @if (getStepClass(step.key) === 'tl-done') {
+                                <i class="pi pi-check"></i>
+                                } @else if (getStepClass(step.key) === 'tl-current') {
+                                <i class="pi pi-clock"></i>
+                                }
+                            </div>
+                            <div class="timeline-content">
+                                <p class="timeline-label"
+                                    [ngClass]="{'timeline-label-muted': getStepClass(step.key) === 'tl-pending'}">{{
+                                    step.label }}</p>
+                                <p class="timeline-date">{{ getStepDate(step.key) }}</p>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </ng-template>
+            </p-card>
+        </div>
+    </div>
+    }
+</div>

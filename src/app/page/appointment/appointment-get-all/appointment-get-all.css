@@ -1,0 +1,20 @@
+.code-tag {
+    font-family: monospace;
+    font-size: 0.85rem;
+    background: #f1f5f9;
+    padding: 3px 9px;
+    border-radius: 6px;
+    color: #0f3a5f;
+    font-weight: 600;
+}
+
+.patient-cell {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 2px;
+}

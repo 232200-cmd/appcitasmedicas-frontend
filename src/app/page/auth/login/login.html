@@ -1,0 +1,33 @@
+<div class="auth-page">
+    <div class="auth-card">
+        <div class="auth-header">
+            <i class="pi pi-heart-fill auth-icon"></i>
+            <p class="auth-title">MediCita</p>
+            <p class="auth-subtitle">Inicia sesión para gestionar tus citas médicas</p>
+        </div>
+
+        <form [formGroup]="frmLogin" (ngSubmit)="onSubmit()">
+            <div class="field-group">
+                <label class="field-label">Correo electrónico</label>
+                <input pInputText formControlName="email" placeholder="correo@ejemplo.com" class="w-full" />
+                @if ((emailFb.touched || emailFb.dirty) && emailFb.hasError('required')) {
+                    <small class="errorMessage">El correo es requerido.</small>
+                }
+            </div>
+
+            <div class="field-group">
+                <label class="field-label">Contraseña</label>
+                <p-password formControlName="password" [feedback]="false" [toggleMask]="true" placeholder="Tu contraseña" styleClass="w-full" inputStyleClass="w-full" />
+                @if ((passwordFb.touched || passwordFb.dirty) && passwordFb.hasError('required')) {
+                    <small class="errorMessage">La contraseña es requerida.</small>
+                }
+            </div>
+
+            <p-button label="Iniciar sesión" type="submit" styleClass="w-full" [loading]="loading()" />
+        </form>
+
+        <p class="auth-footer">
+            ¿No tienes cuenta? <a (click)="goToRegister()" class="auth-link">Regístrate aquí</a>
+        </p>
+    </div>
+</div>

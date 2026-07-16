@@ -1,0 +1,39 @@
+@import "primeicons/primeicons.css";
+@import "tailwindcss";
+
+.errorMessage {
+    color: red;
+}
+
+/* ============================================
+   FORZAR TEMA CLARO EN TODAS LAS TABLAS (p-table)
+   Sobrescribe las variables CSS que usa PrimeNG
+   internamente, en vez de pelear con clases.
+   ============================================ */
+:root {
+    --p-datatable-header-cell-background: #f8fafc;
+    --p-datatable-header-cell-color: #0f2540;
+    --p-datatable-row-background: #ffffff;
+    --p-datatable-row-color: #111827;
+    --p-datatable-row-hover-background: #f8fafc;
+    --p-datatable-row-hover-color: #111827;
+    --p-datatable-body-cell-border-color: #e5e7eb;
+    --p-datatable-header-border-color: #e5e7eb;
+    --p-datatable-header-cell-border-color: #e5e7eb;
+    --p-paginator-background: #ffffff;
+    --p-paginator-color: #111827;
+    --p-inputtext-background: #ffffff;
+    --p-inputtext-color: #111827;
+    --p-inputtext-border-color: #d1d5db;
+    --p-card-background: #ffffff;
+    --p-card-color: #111827;
+
+    /* Selector de cantidad por página (dropdown "10"/"5") */
+    --p-select-background: #ffffff;
+    --p-select-color: #111827;
+    --p-select-border-color: #d1d5db;
+    --p-select-overlay-background: #ffffff;
+    --p-select-overlay-color: #111827;
+    --p-select-option-color: #111827;
+    --p-select-option-background: #ffffff;
+}

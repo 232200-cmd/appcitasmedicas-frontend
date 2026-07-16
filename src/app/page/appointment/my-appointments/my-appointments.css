@@ -1,0 +1,138 @@
+.page-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+}
+
+.page-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #0f2540;
+    margin: 0 0 0.3rem 0;
+}
+
+.page-subtitle {
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin: 0;
+}
+
+.empty-state {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 3rem 2rem;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.empty-icon {
+    font-size: 2.5rem;
+    color: #cbd5e1;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.empty-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #0f2540;
+    margin: 0 0 0.4rem 0;
+}
+
+.empty-text {
+    font-size: 0.88rem;
+    color: #6b7280;
+    margin: 0 0 1.4rem 0;
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.appointments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+
+.appointment-row {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 1rem 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.1s;
+}
+
+.appointment-row:hover {
+    border-color: #0d9488;
+    transform: translateY(-1px);
+}
+
+.row-left {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+}
+
+.row-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.avatar-pending { background: #fef3c7; color: #b45309; }
+.avatar-seen { background: #dbeafe; color: #1d4ed8; }
+.avatar-coordination { background: #ede9fe; color: #6d28d9; }
+.avatar-closed { background: #dcfce7; color: #15803d; }
+.avatar-refused { background: #fee2e2; color: #b91c1c; }
+
+.row-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 0.2rem 0;
+}
+
+.row-subtitle {
+    font-size: 0.82rem;
+    color: #6b7280;
+    margin: 0;
+}
+
+.row-right {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.code-tag {
+    font-family: monospace;
+    font-size: 0.8rem;
+    background: #f1f5f9;
+    padding: 3px 9px;
+    border-radius: 6px;
+    color: #0f3a5f;
+    font-weight: 600;
+}
+
+.row-chevron {
+    color: #cbd5e1;
+    font-size: 0.85rem;
+}

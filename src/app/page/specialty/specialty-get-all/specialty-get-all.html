@@ -1,0 +1,45 @@
+<div class="page-wrapper">
+    <p class="page-title">Especialidades</p>
+    <p class="page-subtitle">Listado de especialidades médicas disponibles en el sistema.</p>
+
+    <p-card styleClass="table-card">
+        <ng-template #content>
+            <div class="table-header">
+                <span class="table-title">Especialidades registradas</span>
+                <p-iconfield>
+                    <p-inputicon class="pi pi-search" />
+                    <input pInputText type="text" placeholder="Buscar especialidad..." (input)="dt.filterGlobal($event.target.value, 'contains')" />
+                </p-iconfield>
+            </div>
+
+            <p-table
+                [value]="listSpecialty"
+                [paginator]="true"
+                [rows]="10"
+                [rowsPerPageOptions]="[10, 20, 50]"
+                [globalFilterFields]="['name']"
+                #dt>
+                <ng-template #header>
+                    <tr>
+                        <th>Especialidad</th>
+                    </tr>
+                </ng-template>
+                <ng-template #body let-item>
+                    <tr>
+                        <td>
+                            <div class="specialty-cell">
+                                <i class="pi pi-heart specialty-icon"></i>
+                                <span class="specialty-name">{{ item.name }}</span>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template #emptymessage>
+                    <tr>
+                        <td colspan="1" class="text-center py-4">No hay especialidades registradas.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </ng-template>
+    </p-card>
+</div>

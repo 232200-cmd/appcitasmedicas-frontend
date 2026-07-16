@@ -1,0 +1,85 @@
+<div class="dashboard-wrapper">
+    <p class="dashboard-title">Panel de administración</p>
+    <p class="dashboard-subtitle">Gestión de todas las solicitudes de citas médicas del sistema.</p>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div>
+                <p class="stat-label">Total solicitudes</p>
+                <p class="stat-value">{{ listAppointment.length }}</p>
+            </div>
+            <span class="stat-badge stat-badge-gray">{{ listAppointment.length }}</span>
+        </div>
+        <div class="stat-card">
+            <div>
+                <p class="stat-label">Pendientes</p>
+                <p class="stat-value">{{ countByStatus('Pendiente de revisión') }}</p>
+            </div>
+            <span class="stat-badge stat-badge-amber">{{ countByStatus('Pendiente de revisión') }}</span>
+        </div>
+        <div class="stat-card">
+            <div>
+                <p class="stat-label">En coordinación</p>
+                <p class="stat-value">{{ countByStatus('En coordinación') }}</p>
+            </div>
+            <span class="stat-badge stat-badge-purple">{{ countByStatus('En coordinación') }}</span>
+        </div>
+        <div class="stat-card">
+            <div>
+                <p class="stat-label">Cerradas</p>
+                <p class="stat-value">{{ countByStatus('Cerrado') }}</p>
+            </div>
+            <span class="stat-badge stat-badge-green">{{ countByStatus('Cerrado') }}</span>
+        </div>
+    </div>
+
+    <p-card styleClass="table-card">
+        <ng-template #content>
+            <div class="table-header">
+                <span class="table-title">Solicitudes recientes</span>
+                <p-iconfield>
+                    <p-inputicon class="pi pi-search" />
+                    <input pInputText type="text" placeholder="Buscar por paciente, código..." (input)="dt.filterGlobal($event.target.value, 'contains')" />
+                </p-iconfield>
+            </div>
+
+            <p-table
+                [value]="listAppointment"
+                [paginator]="true"
+                [rows]="5"
+                [rowsPerPageOptions]="[5, 10, 20]"
+                [globalFilterFields]="['code','personFullName','specialtyName','doctorFullName']"
+                #dt>
+                <ng-template #header>
+                    <tr>
+                        <th>Código</th>
+                        <th>Paciente</th>
+                        <th>Especialidad</th>
+                        <th>Doctor</th>
+                        <th>Fecha preferida</th>
+                        <th>Estado</th>
+                        <th>Acción</th>
+                    </tr>
+                </ng-template>
+                <ng-template #body let-item>
+                    <tr>
+                        <td><span class="code-tag">{{ item.code }}</span></td>
+                        <td class="patient-name">{{ item.personFullName }}</td>
+                        <td class="text-muted-cell">{{ item.specialtyName }}</td>
+                        <td class="text-muted-cell">{{ item.doctorFullName }}</td>
+                        <td class="text-muted-cell">{{ item.preferredDate | date:'d MMM yyyy' }}</td>
+                        <td><p-tag [value]="item.status" [severity]="getSeverity(item.status)" /></td>
+                        <td>
+                            <p-button label="Ver" icon="pi pi-eye" severity="secondary" [outlined]="true" size="small" [routerLink]="['/appointment/detail', item.idAppointment]" />
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template #emptymessage>
+                    <tr>
+                        <td colspan="7" class="text-center py-4">No hay citas registradas.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </ng-template>
+    </p-card>
+</div>

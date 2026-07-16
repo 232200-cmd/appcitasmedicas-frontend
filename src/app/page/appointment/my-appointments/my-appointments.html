@@ -1,0 +1,39 @@
+<div class="page-wrapper">
+    <div class="page-header">
+        <div>
+            <p class="page-title">Mis citas</p>
+            <p class="page-subtitle">Consulta el estado de tus solicitudes con tu código de seguimiento</p>
+        </div>
+        <p-button label="Nueva solicitud" icon="pi pi-plus" routerLink="/appointment/insert" />
+    </div>
+
+    @if (listAppointment.length === 0) {
+        <div class="empty-state">
+            <i class="pi pi-calendar-times empty-icon"></i>
+            <p class="empty-title">Aún no tienes citas registradas</p>
+            <p class="empty-text">Cuando solicites una cita médica, aparecerá aquí con su estado y seguimiento.</p>
+            <p-button label="Registrar mi primera cita" icon="pi pi-plus" routerLink="/appointment/insert" />
+        </div>
+    } @else {
+        <div class="appointments-list">
+            @for (item of listAppointment; track item.idAppointment) {
+                <div class="appointment-row" [routerLink]="['/appointment/detail', item.idAppointment]">
+                    <div class="row-left">
+                        <div class="row-avatar" [ngClass]="getAvatarClass(item.status)">
+                            <i class="pi pi-heart"></i>
+                        </div>
+                        <div>
+                            <p class="row-title">{{ item.specialtyName }}</p>
+                            <p class="row-subtitle">{{ item.doctorFullName }} · {{ item.preferredDate | date:'d MMM yyyy' }}</p>
+                        </div>
+                    </div>
+                    <div class="row-right">
+                        <span class="code-tag">{{ item.code }}</span>
+                        <p-tag [value]="item.status" [severity]="getSeverity(item.status)" />
+                        <i class="pi pi-chevron-right row-chevron"></i>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

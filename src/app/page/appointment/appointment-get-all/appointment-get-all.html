@@ -1,0 +1,59 @@
+<p-card>
+    <ng-template #title>
+        <span class="card-title-text"><i class="pi pi-list"></i> Listado de citas médicas</span>
+    </ng-template>
+    <ng-template #content>
+        <p-table
+            [value]="listAppointment"
+            [paginator]="true"
+            [rows]="5"
+            [rowsPerPageOptions]="[5, 10, 20]"
+            stripedRows
+            [globalFilterFields]="['code','personFullName','specialtyName','doctorFullName']"
+            #dt>
+            <ng-template #caption>
+                <div class="flex justify-end">
+                    <p-iconfield>
+                        <p-inputicon class="pi pi-search" />
+                        <input pInputText type="text" placeholder="Buscar..." (input)="dt.filterGlobal($event.target.value, 'contains')" />
+                    </p-iconfield>
+                </div>
+            </ng-template>
+            <ng-template #header>
+                <tr>
+                    <th pSortableColumn="code">Código <p-sortIcon field="code" /></th>
+                    <th pSortableColumn="personFullName">Paciente <p-sortIcon field="personFullName" /></th>
+                    <th pSortableColumn="specialtyName">Especialidad <p-sortIcon field="specialtyName" /></th>
+                    <th pSortableColumn="doctorFullName">Doctor <p-sortIcon field="doctorFullName" /></th>
+                    <th pSortableColumn="preferredDate">Fecha pref. <p-sortIcon field="preferredDate" /></th>
+                    <th pSortableColumn="status">Estado <p-sortIcon field="status" /></th>
+                    <th>Acciones</th>
+                </tr>
+            </ng-template>
+            <ng-template #body let-item>
+                <tr>
+                    <td><span class="code-tag">{{ item.code }}</span></td>
+                    <td>
+                        <div class="patient-cell">
+                            <p-avatar [label]="getInitials(item.personFullName)" shape="circle" size="normal" />
+                            <span>{{ item.personFullName }}</span>
+                        </div>
+                    </td>
+                    <td>{{ item.specialtyName }}</td>
+                    <td>{{ item.doctorFullName }}</td>
+                    <td>{{ item.preferredDate | date:'dd/MM/yyyy' }}</td>
+                    <td><p-tag [value]="item.status" [severity]="getSeverity(item.status)" /></td>
+                <td>
+                    <p-button icon="pi pi-eye" [text]="true" [rounded]="true" severity="info"
+                        [routerLink]="['/appointment/detail', item.idAppointment]" pTooltip="Ver detalle" />
+                </td>
+                </tr>
+            </ng-template>
+            <ng-template #emptymessage>
+                <tr>
+                    <td colspan="7" class="text-center py-4">No hay citas registradas.</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </ng-template>
+</p-card>

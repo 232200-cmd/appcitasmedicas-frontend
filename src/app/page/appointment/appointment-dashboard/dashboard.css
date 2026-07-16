@@ -1,0 +1,157 @@
+.dashboard-wrapper {
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.dashboard-title {
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: #0f2540;
+    margin: 0 0 0.4rem 0;
+}
+
+.dashboard-subtitle {
+    font-size: 0.92rem;
+    color: #6b7280;
+    margin: 0 0 1.5rem 0;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+@media (max-width: 900px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.stat-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 1.1rem 1.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    color: #6b7280;
+    margin: 0 0 0.3rem 0;
+}
+
+.stat-value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #0f2540;
+    margin: 0;
+}
+
+.stat-badge {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.stat-badge-gray { background: #f1f5f9; color: #475569; }
+.stat-badge-amber { background: #fef3c7; color: #b45309; }
+.stat-badge-purple { background: #ede9fe; color: #6d28d9; }
+.stat-badge-green { background: #dcfce7; color: #15803d; }
+
+/* Tarjeta de la tabla forzada a fondo blanco */
+:host ::ng-deep .table-card {
+    background: #ffffff !important;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+    border: 1px solid #e5e7eb;
+}
+
+:host ::ng-deep .table-card .p-card-body {
+    background: #ffffff !important;
+    padding: 1.5rem;
+}
+
+.table-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.2rem;
+}
+
+.table-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #0f2540;
+}
+
+/* Forzar tabla de PrimeNG a colores claros */
+:host ::ng-deep .p-datatable {
+    background: #ffffff !important;
+}
+
+:host ::ng-deep .p-datatable-table {
+    background: #ffffff !important;
+}
+
+:host ::ng-deep .p-datatable-thead > tr > th {
+    background: #f8fafc !important;
+    color: #0f2540 !important;
+    border-color: #e5e7eb !important;
+    font-weight: 700 !important;
+}
+
+:host ::ng-deep .p-datatable-tbody > tr {
+    background: #ffffff !important;
+    color: #111827 !important;
+}
+
+:host ::ng-deep .p-datatable-tbody > tr:hover {
+    background: #f8fafc !important;
+}
+
+:host ::ng-deep .p-datatable-tbody > tr > td {
+    border-color: #e5e7eb !important;
+    color: #111827 !important;
+}
+
+:host ::ng-deep .p-paginator {
+    background: #ffffff !important;
+    color: #111827 !important;
+}
+
+:host ::ng-deep .p-inputtext {
+    background: #ffffff !important;
+    color: #111827 !important;
+    border-color: #d1d5db !important;
+}
+
+.code-tag {
+    font-family: monospace;
+    font-size: 0.85rem;
+    background: #f1f5f9;
+    padding: 3px 9px;
+    border-radius: 6px;
+    color: #0f3a5f;
+    font-weight: 600;
+}
+
+.patient-name {
+    font-weight: 500;
+    color: #111827;
+}
+
+.text-muted-cell {
+    color: #6b7280;
+}

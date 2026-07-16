@@ -1,0 +1,47 @@
+<div class="page-wrapper">
+    <p class="page-title">Doctores</p>
+    <p class="page-subtitle">Listado de doctores registrados en el sistema.</p>
+
+    <p-card styleClass="table-card">
+        <ng-template #content>
+            <div class="table-header">
+                <span class="table-title">Doctores registrados</span>
+                <p-iconfield>
+                    <p-inputicon class="pi pi-search" />
+                    <input pInputText type="text" placeholder="Buscar por nombre o email..." (input)="dt.filterGlobal($event.target.value, 'contains')" />
+                </p-iconfield>
+            </div>
+
+            <p-table
+                [value]="listDoctor"
+                [paginator]="true"
+                [rows]="10"
+                [rowsPerPageOptions]="[10, 20, 50]"
+                [globalFilterFields]="['firstName','surName','email']"
+                #dt>
+                <ng-template #header>
+                    <tr>
+                        <th>Nombre completo</th>
+                        <th>Correo electrónico</th>
+                    </tr>
+                </ng-template>
+                <ng-template #body let-item>
+                    <tr>
+                        <td>
+                            <div class="doctor-cell">
+                                <p-avatar [label]="getInitials(item.fullName)" shape="circle" styleClass="doctor-avatar" />
+                                <span class="doctor-name">{{ item.fullName }}</span>
+                            </div>
+                        </td>
+                        <td class="text-muted-cell">{{ item.email }}</td>
+                    </tr>
+                </ng-template>
+                <ng-template #emptymessage>
+                    <tr>
+                        <td colspan="2" class="text-center py-4">No hay doctores registrados.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </ng-template>
+    </p-card>
+</div>

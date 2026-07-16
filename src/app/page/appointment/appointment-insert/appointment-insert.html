@@ -1,0 +1,101 @@
+<div class="page-wrapper">
+    <p class="page-title">Nueva solicitud de cita</p>
+    <p class="page-subtitle">Complete el formulario para solicitar una cita médica. Le contactaremos para confirmar su
+        disponibilidad.</p>
+
+    <p-card styleClass="form-card">
+        <ng-template #content>
+            <form [formGroup]="frmInsertAppointment">
+                <div class="form-grid">
+                    <div class="field-group">
+                        <label class="field-label">Nombre completo</label>
+                        <input pInputText formControlName="personFullName" placeholder="Ej. María González López"
+                            class="w-full" />
+                        @if ((personFullNameFb.touched || personFullNameFb.dirty) &&
+                        personFullNameFb.hasError('required')) {
+                        <small class="errorMessage">Campo requerido.</small>
+                        }
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label">Especialidad</label>
+                        <p-select [options]="listSpecialty" formControlName="specialty" optionLabel="name"
+                            placeholder="Seleccione una especialidad" class="w-full" />
+                        @if ((specialtyFb.touched || specialtyFb.dirty) && specialtyFb.hasError('required')) {
+                        <small class="errorMessage">Campo requerido.</small>
+                        }
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label"><i class="pi pi-id-card"></i> Doctor *</label>
+                        <p-select [options]="listDoctor" formControlName="doctor" optionLabel="fullName"
+                            [placeholder]="specialtyFb.value ? 'Seleccione un doctor' : 'Primero seleccione una especialidad'"
+                            [disabled]="!specialtyFb.value" class="w-full" />
+                        @if (specialtyFb.value && listDoctor.length === 0) {
+                        <small class="text-muted-info">No hay doctores disponibles para esta especialidad.</small>
+                        }
+                        @if ((doctorFb.touched || doctorFb.dirty) && doctorFb.hasError('required')) {
+                        <small class="errorMessage">Campo requerido.</small>
+                        }
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label">Fecha</label>
+                        <p-datepicker formControlName="preferredDate" [inline]="false" dateFormat="dd/mm/yy"
+                            [minDate]="maxDate" placeholder="dd/mm/aaaa" class="w-full" />
+                        @if ((preferredDateFb.touched || preferredDateFb.dirty) && preferredDateFb.hasError('required'))
+                        {
+                        <small class="errorMessage">Campo requerido.</small>
+                        }
+                    </div>
+                </div>
+
+                <div class="field-group full-width">
+                    <label class="field-label">Motivo de consulta</label>
+                    <textarea pTextarea formControlName="description" rows="4"
+                        placeholder="Describa brevemente el motivo de su consulta y cualquier síntoma relevante..."
+                        class="w-full"></textarea>
+                    @if ((descriptionFb.touched || descriptionFb.dirty) && descriptionFb.hasError('required')) {
+                    <small class="errorMessage">Campo requerido.</small>
+                    }
+                </div>
+
+                <div class="field-group full-width">
+                    <label class="field-label">Adjuntar exámenes o recetas (opcional)</label>
+
+                    @if (fileRowList.length === 0) {
+                    <div class="upload-zone" (click)="addFile()">
+                        <i class="pi pi-upload upload-icon"></i>
+                        <p class="upload-text">
+                            Arrastre archivos aquí o <span class="upload-link">haga clic para seleccionar</span>
+                        </p>
+                        <p class="upload-hint">PDF, JPG, PNG — máximo 10 MB por archivo</p>
+                    </div>
+                    }
+
+                    @if (fileRowList.length > 0) {
+                    <div class="file-list">
+                        @for(value of fileRowList; track value.id) {
+                        <div class="file-row">
+                            <p-fileUpload mode="basic" chooseLabel="Seleccionar archivo" chooseIcon="pi pi-file"
+                                (onSelect)="onFileSelect($event, value.id)" />
+                            <p-button icon="pi pi-trash" severity="danger" [text]="true" (click)="removeFile(value)" />
+                        </div>
+                        }
+                        <p-button label="Agregar otro archivo" icon="pi pi-plus" severity="secondary" [text]="true"
+                            size="small" (click)="addFile()" />
+                    </div>
+                    }
+                </div>
+
+                <p-divider />
+
+                <div class="form-actions">
+                    <p-button label="Cancelar" severity="secondary" [outlined]="true"
+                        (click)="frmInsertAppointment.reset()" />
+                    <p-button label="Enviar solicitud" (click)="sendInsertAppointment($event)" />
+                </div>
+            </form>
+        </ng-template>
+    </p-card>
+</div>

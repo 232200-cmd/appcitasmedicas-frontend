@@ -1,0 +1,140 @@
+.layout-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.layout-topbar {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+    background: #0f3a5f;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.topbar-icon {
+    color: #2dd4bf;
+    font-size: 1.15rem;
+}
+
+.app-logo {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+:host ::ng-deep .topbar-menu-btn {
+    color: #ffffff !important;
+}
+
+.topbar-nav {
+    display: flex;
+    gap: 1.8rem;
+}
+
+.topbar-link {
+    color: #cbd5e1;
+    font-size: 0.92rem;
+    font-weight: 500;
+    text-decoration: none;
+    padding: 0.4rem 0;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+}
+
+.topbar-link:hover {
+    color: #ffffff;
+}
+
+.topbar-link.nav-active {
+    color: #ffffff;
+    border-bottom-color: #2dd4bf;
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.user-name {
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.role-badge {
+    background: #1e4a73;
+    color: #93c5fd;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 6px;
+}
+
+.role-badge.role-admin {
+    background: #16a34a;
+    color: #ffffff;
+}
+
+.layout-body {
+    flex: 1;
+    display: flex;
+}
+
+.layout-main {
+    flex: 1;
+    background: #f1f5f9;
+    min-height: calc(100vh - 60px);
+}
+
+.content-wrapper {
+    padding: 2rem 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.sidebar-content {
+    padding: 0.5rem 0;
+}
+
+.nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    color: #111827;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: background 0.2s;
+}
+
+.nav-link:hover {
+    background: #f1f5f9;
+}
+
+.nav-link.active-link {
+    background: #ccfbf1;
+    color: #0f766e;
+    font-weight: 500;
+}

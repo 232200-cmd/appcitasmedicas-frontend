@@ -1,0 +1,55 @@
+<div class="auth-page">
+    <div class="auth-card">
+        <div class="auth-header">
+            <i class="pi pi-heart-fill auth-icon"></i>
+            <p class="auth-title">Crear cuenta</p>
+            <p class="auth-subtitle">Regístrate como paciente para solicitar citas médicas</p>
+        </div>
+
+        <form [formGroup]="frmRegister" (ngSubmit)="onSubmit()">
+            <div class="field-group">
+                <label class="field-label">Nombres</label>
+                <input pInputText formControlName="firstName" placeholder="Carlos" class="w-full" />
+                @if ((firstNameFb.touched || firstNameFb.dirty) && firstNameFb.hasError('required')) {
+                <small class="errorMessage">Campo requerido.</small>
+                }
+            </div>
+            
+            <div class="field-group">
+                <label class="field-label">Apellidos</label>
+                <input pInputText formControlName="surName" placeholder="Mamani Quispe" class="w-full" />
+                @if ((surNameFb.touched || surNameFb.dirty) && surNameFb.hasError('required')) {
+                <small class="errorMessage">Campo requerido.</small>
+                }
+            </div>
+
+            <div class="field-group">
+                <label class="field-label">Correo electrónico</label>
+                <input pInputText formControlName="email" placeholder="correo@ejemplo.com" class="w-full" />
+                @if ((emailFb.touched || emailFb.dirty) && emailFb.hasError('required')) {
+                    <small class="errorMessage">El correo es requerido.</small>
+                }
+                @if (emailFb.hasError('email')) {
+                    <small class="errorMessage">Ingrese un correo válido.</small>
+                }
+            </div>
+
+            <div class="field-group">
+                <label class="field-label">Contraseña</label>
+                <p-password formControlName="password" [toggleMask]="true" placeholder="Mínimo 6 caracteres" styleClass="w-full" inputStyleClass="w-full" />
+                @if ((passwordFb.touched || passwordFb.dirty) && passwordFb.hasError('required')) {
+                    <small class="errorMessage">La contraseña es requerida.</small>
+                }
+                @if (passwordFb.hasError('minlength')) {
+                    <small class="errorMessage">Mínimo 6 caracteres.</small>
+                }
+            </div>
+
+            <p-button label="Crear cuenta" type="submit" styleClass="w-full" [loading]="loading()" />
+        </form>
+
+        <p class="auth-footer">
+            ¿Ya tienes cuenta? <a (click)="goToLogin()" class="auth-link">Inicia sesión</a>
+        </p>
+    </div>
+</div>
