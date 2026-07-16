@@ -31,8 +31,6 @@ export class App implements OnInit {
 
     sidebarVisible = signal<boolean>(false);
 
-    // Historial propio de navegación DENTRO de la app (no el del navegador).
-    // Se usa para mostrar/ocultar el botón "Atrás" del sistema.
     private historyStack: string[] = [];
     canGoBack = signal<boolean>(false);
 

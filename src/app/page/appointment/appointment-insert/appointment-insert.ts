@@ -71,8 +71,6 @@ export class AppointmentInsert implements OnInit {
     ngOnInit(): void {
         this.initialization();
 
-        // Cuando cambia la especialidad, recargamos la lista de doctores
-        // y limpiamos el doctor seleccionado previamente (si ya no aplica).
         this.specialtyFb.valueChanges.subscribe((selectedSpecialty: any) => {
             this.doctorFb.setValue('');
             this.listDoctor = [];
