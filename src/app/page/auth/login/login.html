@@ -1,33 +1,75 @@
 <div class="auth-page">
-    <div class="auth-card">
-        <div class="auth-header">
-            <i class="pi pi-heart-fill auth-icon"></i>
-            <p class="auth-title">MediCita</p>
-            <p class="auth-subtitle">Inicia sesión para gestionar tus citas médicas</p>
+    <!-- Left: Clinic Image -->
+    <div class="auth-right" style="background: url('assets/clinic-hero.png') center/cover no-repeat;">
+        <div class="auth-image-overlay"></div>
+        <div class="auth-image-content">
+            <i class="pi pi-verified auth-badge-icon"></i>
+            <h2 class="auth-image-title">Bienvenido a MediCita</h2>
+            <p class="auth-image-text">Gestiona tus citas médicas de forma rápida, segura y desde cualquier lugar.</p>
+            <div class="auth-image-features">
+                <div class="auth-feature">
+                    <i class="pi pi-calendar"></i>
+                    <span>Agenda fácilmente</span>
+                </div>
+                <div class="auth-feature">
+                    <i class="pi pi-clock"></i>
+                    <span>Disponible 24/7</span>
+                </div>
+                <div class="auth-feature">
+                    <i class="pi pi-shield"></i>
+                    <span>Datos protegidos</span>
+                </div>
+            </div>
         </div>
+    </div>
 
-        <form [formGroup]="frmLogin" (ngSubmit)="onSubmit()">
-            <div class="field-group">
-                <label class="field-label">Correo electrónico</label>
-                <input pInputText formControlName="email" placeholder="correo@ejemplo.com" class="w-full" />
-                @if ((emailFb.touched || emailFb.dirty) && emailFb.hasError('required')) {
-                    <small class="errorMessage">El correo es requerido.</small>
-                }
+    <!-- Right: Login Form -->
+    <div class="auth-left">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="auth-icon-wrapper">
+                    <i class="pi pi-heart-fill auth-icon"></i>
+                </div>
+                <p class="auth-title">MediCita</p>
+                <p class="auth-subtitle">Tu salud, nuestro compromiso</p>
             </div>
 
-            <div class="field-group">
-                <label class="field-label">Contraseña</label>
-                <p-password formControlName="password" [feedback]="false" [toggleMask]="true" placeholder="Tu contraseña" styleClass="w-full" inputStyleClass="w-full" />
-                @if ((passwordFb.touched || passwordFb.dirty) && passwordFb.hasError('required')) {
-                    <small class="errorMessage">La contraseña es requerida.</small>
-                }
+            <div class="auth-welcome">
+                <i class="pi pi-shield"></i>
+                <span>Inicia sesión para gestionar tus citas médicas</span>
             </div>
 
-            <p-button label="Iniciar sesión" type="submit" styleClass="w-full" [loading]="loading()" />
-        </form>
+            <form [formGroup]="frmLogin" (ngSubmit)="onSubmit()">
+                <div class="field-group">
+                    <label class="field-label">
+                        <i class="pi pi-envelope"></i>
+                        Correo electrónico
+                    </label>
+                    <input pInputText formControlName="email" placeholder="correo@ejemplo.com" class="w-full" />
+                    @if ((emailFb.touched || emailFb.dirty) && emailFb.hasError('required')) {
+                        <small class="errorMessage">El correo es requerido.</small>
+                    }
+                </div>
 
-        <p class="auth-footer">
-            ¿No tienes cuenta? <a (click)="goToRegister()" class="auth-link">Regístrate aquí</a>
-        </p>
+                <div class="field-group">
+                    <label class="field-label">
+                        <i class="pi pi-lock"></i>
+                        Contraseña
+                    </label>
+                    <p-password formControlName="password" [feedback]="false" [toggleMask]="true" placeholder="Tu contraseña" styleClass="w-full" inputStyleClass="w-full" />
+                    @if ((passwordFb.touched || passwordFb.dirty) && passwordFb.hasError('required')) {
+                        <small class="errorMessage">La contraseña es requerida.</small>
+                    }
+                </div>
+
+                <p-button label="Iniciar sesión" type="submit" styleClass="w-full" [loading]="loading()" icon="pi pi-sign-in" />
+            </form>
+
+            <div class="auth-divider">o</div>
+
+            <p class="auth-footer">
+                ¿No tienes cuenta? <a (click)="goToRegister()" class="auth-link">Regístrate aquí</a>
+            </p>
+        </div>
     </div>
 </div>

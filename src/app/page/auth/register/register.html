@@ -1,30 +1,48 @@
 <div class="auth-page">
     <div class="auth-card">
         <div class="auth-header">
-            <i class="pi pi-heart-fill auth-icon"></i>
+            <div class="auth-icon-wrapper">
+                <i class="pi pi-user-plus auth-icon"></i>
+            </div>
             <p class="auth-title">Crear cuenta</p>
-            <p class="auth-subtitle">Regístrate como paciente para solicitar citas médicas</p>
+            <p class="auth-subtitle">Únete a MediCita</p>
+        </div>
+
+        <div class="auth-welcome">
+            <i class="pi pi-heart"></i>
+            <span>Regístrate como paciente para solicitar citas médicas</span>
         </div>
 
         <form [formGroup]="frmRegister" (ngSubmit)="onSubmit()">
-            <div class="field-group">
-                <label class="field-label">Nombres</label>
-                <input pInputText formControlName="firstName" placeholder="Carlos" class="w-full" />
-                @if ((firstNameFb.touched || firstNameFb.dirty) && firstNameFb.hasError('required')) {
-                <small class="errorMessage">Campo requerido.</small>
-                }
-            </div>
-            
-            <div class="field-group">
-                <label class="field-label">Apellidos</label>
-                <input pInputText formControlName="surName" placeholder="Mamani Quispe" class="w-full" />
-                @if ((surNameFb.touched || surNameFb.dirty) && surNameFb.hasError('required')) {
-                <small class="errorMessage">Campo requerido.</small>
-                }
+            <div class="form-grid">
+                <div class="field-group">
+                    <label class="field-label">
+                        <i class="pi pi-user"></i>
+                        Nombres
+                    </label>
+                    <input pInputText formControlName="firstName" placeholder="Carlos" class="w-full" />
+                    @if ((firstNameFb.touched || firstNameFb.dirty) && firstNameFb.hasError('required')) {
+                    <small class="errorMessage">Campo requerido.</small>
+                    }
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">
+                        <i class="pi pi-user"></i>
+                        Apellidos
+                    </label>
+                    <input pInputText formControlName="surName" placeholder="Mamani Quispe" class="w-full" />
+                    @if ((surNameFb.touched || surNameFb.dirty) && surNameFb.hasError('required')) {
+                    <small class="errorMessage">Campo requerido.</small>
+                    }
+                </div>
             </div>
 
             <div class="field-group">
-                <label class="field-label">Correo electrónico</label>
+                <label class="field-label">
+                    <i class="pi pi-envelope"></i>
+                    Correo electrónico
+                </label>
                 <input pInputText formControlName="email" placeholder="correo@ejemplo.com" class="w-full" />
                 @if ((emailFb.touched || emailFb.dirty) && emailFb.hasError('required')) {
                     <small class="errorMessage">El correo es requerido.</small>
@@ -35,18 +53,55 @@
             </div>
 
             <div class="field-group">
-                <label class="field-label">Contraseña</label>
-                <p-password formControlName="password" [toggleMask]="true" placeholder="Mínimo 6 caracteres" styleClass="w-full" inputStyleClass="w-full" />
+                <label class="field-label">
+                    <i class="pi pi-lock"></i>
+                    Contraseña
+                </label>
+                <p-password formControlName="password" [feedback]="false" [toggleMask]="true" placeholder="Crea una contraseña segura" styleClass="w-full" inputStyleClass="w-full" (onInput)="onPasswordInput()" />
+
+                <!-- Strength bar -->
+                @if (passwordValue().length > 0) {
+                    <div class="password-strength">
+                        <div class="strength-bar-track">
+                            <div class="strength-bar-fill" [class]="strengthLevel().class" [style.width.%]="strengthLevel().percent"></div>
+                        </div>
+                        <span class="strength-label" [class]="strengthLevel().class">{{ strengthLevel().label }}</span>
+                    </div>
+
+                    <!-- Requirements checklist -->
+                    <div class="password-requirements">
+                        <div class="req-item" [class.req-met]="hasMinLength()">
+                            <i [class]="hasMinLength() ? 'pi pi-check-circle' : 'pi pi-circle'"></i>
+                            <span>Mínimo 8 caracteres</span>
+                        </div>
+                        <div class="req-item" [class.req-met]="hasUppercase()">
+                            <i [class]="hasUppercase() ? 'pi pi-check-circle' : 'pi pi-circle'"></i>
+                            <span>Una letra mayúscula (A-Z)</span>
+                        </div>
+                        <div class="req-item" [class.req-met]="hasLowercase()">
+                            <i [class]="hasLowercase() ? 'pi pi-check-circle' : 'pi pi-circle'"></i>
+                            <span>Una letra minúscula (a-z)</span>
+                        </div>
+                        <div class="req-item" [class.req-met]="hasNumber()">
+                            <i [class]="hasNumber() ? 'pi pi-check-circle' : 'pi pi-circle'"></i>
+                            <span>Un número (0-9)</span>
+                        </div>
+                        <div class="req-item" [class.req-met]="hasSpecial()">
+                            <i [class]="hasSpecial() ? 'pi pi-check-circle' : 'pi pi-circle'"></i>
+                            <span>Un carácter especial (!&#64;#$%...)</span>
+                        </div>
+                    </div>
+                }
+
                 @if ((passwordFb.touched || passwordFb.dirty) && passwordFb.hasError('required')) {
                     <small class="errorMessage">La contraseña es requerida.</small>
                 }
-                @if (passwordFb.hasError('minlength')) {
-                    <small class="errorMessage">Mínimo 6 caracteres.</small>
-                }
             </div>
 
-            <p-button label="Crear cuenta" type="submit" styleClass="w-full" [loading]="loading()" />
+            <p-button label="Crear cuenta" type="submit" styleClass="w-full" [loading]="loading()" icon="pi pi-user-plus" />
         </form>
+
+        <div class="auth-divider">o</div>
 
         <p class="auth-footer">
             ¿Ya tienes cuenta? <a (click)="goToLogin()" class="auth-link">Inicia sesión</a>
