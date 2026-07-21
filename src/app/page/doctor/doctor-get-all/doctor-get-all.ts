@@ -5,6 +5,8 @@ import { AvatarModule } from 'primeng/avatar';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { MessageService } from 'primeng/api';
 import { Api } from '../../../api/api';
 import { apidoctorgetall } from '../../../api/functions';
 
@@ -17,17 +19,20 @@ import { apidoctorgetall } from '../../../api/functions';
         AvatarModule,
         IconFieldModule,
         InputIconModule,
-        InputTextModule
+        InputTextModule,
+        ButtonModule
     ],
     templateUrl: './doctor-get-all.html',
     styleUrl: './doctor-get-all.css'
 })
 export class DoctorGetAll implements OnInit {
     private cdr = inject(ChangeDetectorRef);
+    private messageService = inject(MessageService);
 
     listDoctor: any[] = [];
 
-    constructor(private api: Api) {}
+    constructor(private api: Api) {
+    }
 
     ngOnInit(): void {
         this.initialization();
@@ -37,7 +42,7 @@ export class DoctorGetAll implements OnInit {
         setTimeout(() => {
             this.api.invoke(apidoctorgetall).then((response: any) => {
                 const data = typeof response === 'string' ? JSON.parse(response) : response;
-                this.listDoctor = data.listDoctor;
+                this.listDoctor = data.listDoctor || [];
                 this.cdr.detectChanges();
             });
         }, 0);

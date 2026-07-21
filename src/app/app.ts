@@ -1,8 +1,7 @@
-import { Component, inject, signal, computed, OnInit } from '@angular/core';
+import { Component, inject, computed, signal, OnInit } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { RouterOutlet, RouterModule, Router, NavigationEnd } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
-import { DrawerModule } from 'primeng/drawer';
 import { TooltipModule } from 'primeng/tooltip';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -16,7 +15,6 @@ import { AuthService } from './auth/auth.service';
         RouterOutlet,
         RouterModule,
         ButtonModule,
-        DrawerModule,
         TooltipModule,
         ToastModule,
         ConfirmDialogModule
@@ -28,8 +26,6 @@ export class App implements OnInit {
     authService = inject(AuthService);
     private router = inject(Router);
     private location = inject(Location);
-
-    sidebarVisible = signal<boolean>(false);
 
     private historyStack: string[] = [];
     canGoBack = signal<boolean>(false);
@@ -62,10 +58,6 @@ export class App implements OnInit {
             this.historyStack.pop();
             this.location.back();
         }
-    }
-
-    toggleSidebar(): void {
-        this.sidebarVisible.update(visible => !visible);
     }
 
     logout(): void {

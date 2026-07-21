@@ -4,6 +4,8 @@ import { CardModule } from 'primeng/card';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { MessageService } from 'primeng/api';
 import { Api } from '../../../api/api';
 import { apispecialtygetall } from '../../../api/functions';
 
@@ -15,17 +17,20 @@ import { apispecialtygetall } from '../../../api/functions';
         CardModule,
         IconFieldModule,
         InputIconModule,
-        InputTextModule
+        InputTextModule,
+        ButtonModule
     ],
     templateUrl: './specialty-get-all.html',
     styleUrl: './specialty-get-all.css'
 })
 export class SpecialtyGetAll implements OnInit {
     private cdr = inject(ChangeDetectorRef);
+    private messageService = inject(MessageService);
 
     listSpecialty: any[] = [];
-
-    constructor(private api: Api) {}
+    
+    constructor(private api: Api) {
+    }
 
     ngOnInit(): void {
         this.initialization();
@@ -35,7 +40,7 @@ export class SpecialtyGetAll implements OnInit {
         setTimeout(() => {
             this.api.invoke(apispecialtygetall).then((response: any) => {
                 const data = typeof response === 'string' ? JSON.parse(response) : response;
-                this.listSpecialty = data.listSpecialty;
+                this.listSpecialty = data.listSpecialty || [];
                 this.cdr.detectChanges();
             });
         }, 0);

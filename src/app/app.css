@@ -33,6 +33,49 @@
     color: #ffffff;
 }
 
+.topbar-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+}
+
+.topbar-nav {
+    display: flex;
+}
+
+.topbar-nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.topbar-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.topbar-nav-link:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.topbar-nav-link.active-link {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.2);
+    font-weight: 500;
+}
+
 :host ::ng-deep .topbar-menu-btn {
     color: #ffffff !important;
 }
@@ -80,39 +123,10 @@
     margin: 0 auto;
 }
 
-.sidebar-content {
-    padding: 0.5rem 0;
-}
-
-.nav-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-}
-
-.nav-link {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem 1rem;
-    border-radius: 8px;
-    color: #111827;
-    text-decoration: none;
-    font-size: 0.95rem;
-    transition: background 0.2s;
-}
-
-.nav-link:hover {
-    background: #f1f5f9;
-}
-
-.nav-link.active-link {
-    background: #ccfbf1;
-    color: #0f766e;
-    font-weight: 500;
+@media (max-width: 900px) {
+    .topbar-nav {
+        display: none; /* Consider a mobile menu if needed, hiding for now as requested */
+    }
 }
 
 @media (max-width: 640px) {
