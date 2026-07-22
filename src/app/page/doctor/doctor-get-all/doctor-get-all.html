@@ -4,6 +4,7 @@
             <p class="page-title">Doctores</p>
             <p class="page-subtitle">Listado del personal médico disponible en la clínica.</p>
         </div>
+        <p-button label="Nuevo Doctor" icon="pi pi-plus" (onClick)="showInsertModal()" styleClass="p-button-primary"></p-button>
     </div>
 
     <p-card styleClass="table-card mt-3">
@@ -27,6 +28,7 @@
                     <tr>
                         <th>Nombre completo</th>
                         <th>Correo electrónico</th>
+                        <th style="width: 120px; text-align: center;">Acciones</th>
                     </tr>
                 </ng-template>
                 <ng-template #body let-item>
@@ -38,11 +40,17 @@
                             </div>
                         </td>
                         <td class="text-muted-cell">{{ item.email }}</td>
+                        <td>
+                            <div class="flex justify-content-center gap-2">
+                                <p-button icon="pi pi-pencil" [text]="true" [rounded]="true" severity="info" (onClick)="showEditModal(item)"></p-button>
+                                <p-button icon="pi pi-trash" [text]="true" [rounded]="true" severity="danger" (onClick)="confirmDelete(item)"></p-button>
+                            </div>
+                        </td>
                     </tr>
                 </ng-template>
                 <ng-template #emptymessage>
                     <tr>
-                        <td colspan="2" class="text-center py-4">No hay doctores registrados.</td>
+                        <td colspan="3" class="text-center py-4">No hay doctores registrados.</td>
                     </tr>
                 </ng-template>
             </p-table>
@@ -50,3 +58,54 @@
     </p-card>
 </div>
 
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+<p-dialog [header]="isEdit ? 'Editar Doctor' : 'Registrar Nuevo Doctor'" [(visible)]="displayModal" [modal]="true" [style]="{width: '450px'}" [draggable]="false" [resizable]="false">
+    <form [formGroup]="frmDoctor" (ngSubmit)="onSaveSubmit()" class="mt-3">
+        
+        <div class="flex flex-column gap-2 mb-4">
+            <label for="firstName" class="font-semibold">Nombres</label>
+            <input pInputText id="firstName" formControlName="firstName" class="w-full" />
+            @if (frmDoctor.get('firstName')?.invalid && (frmDoctor.get('firstName')?.dirty || frmDoctor.get('firstName')?.touched)) {
+                <small class="errorMessage">El nombre es requerido.</small>
+            }
+        </div>
+
+        <div class="flex flex-column gap-2 mb-4">
+            <label for="surName" class="font-semibold">Apellidos</label>
+            <input pInputText id="surName" formControlName="surName" class="w-full" />
+            @if (frmDoctor.get('surName')?.invalid && (frmDoctor.get('surName')?.dirty || frmDoctor.get('surName')?.touched)) {
+                <small class="errorMessage">El apellido es requerido.</small>
+            }
+        </div>
+        
+        <div class="flex flex-column gap-2 mb-4">
+            <label for="phoneNumber" class="font-semibold">Teléfono</label>
+            <input pInputText id="phoneNumber" formControlName="phoneNumber" class="w-full" />
+            @if (frmDoctor.get('phoneNumber')?.invalid && (frmDoctor.get('phoneNumber')?.dirty || frmDoctor.get('phoneNumber')?.touched)) {
+                <small class="errorMessage">El teléfono es requerido.</small>
+            }
+        </div>
+
+        <div class="flex flex-column gap-2 mb-4">
+            <label for="email" class="font-semibold">Correo Electrónico</label>
+            <input pInputText id="email" formControlName="email" type="email" class="w-full" />
+            @if (frmDoctor.get('email')?.invalid && (frmDoctor.get('email')?.dirty || frmDoctor.get('email')?.touched)) {
+                <small class="errorMessage">Correo electrónico inválido.</small>
+            }
+        </div>
+
+        <div class="flex flex-column gap-2 mb-4">
+            <label for="idSpecialty" class="font-semibold">Especialidad</label>
+            <p-select formControlName="idSpecialty" [options]="listSpecialty" optionLabel="name" optionValue="idSpecialty" placeholder="Seleccione una especialidad" [style]="{'width':'100%'}"></p-select>
+            @if (frmDoctor.get('idSpecialty')?.invalid && (frmDoctor.get('idSpecialty')?.dirty || frmDoctor.get('idSpecialty')?.touched)) {
+                <small class="errorMessage">La especialidad es requerida.</small>
+            }
+        </div>
+
+        <div class="flex justify-content-end gap-2 mt-4">
+            <p-button label="Cancelar" icon="pi pi-times" [text]="true" severity="secondary" (onClick)="hideModal()"></p-button>
+            <p-button label="Guardar" icon="pi pi-check" type="submit" [loading]="loadingSave"></p-button>
+        </div>
+    </form>
+</p-dialog>
