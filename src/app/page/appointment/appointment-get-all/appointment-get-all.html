@@ -3,19 +3,14 @@
         <span class="card-title-text"><i class="pi pi-list"></i> Listado de citas médicas</span>
     </ng-template>
     <ng-template #content>
-        <p-table
-            [value]="listAppointment"
-            [paginator]="true"
-            [rows]="5"
-            [rowsPerPageOptions]="[5, 10, 20]"
-            stripedRows
-            [globalFilterFields]="['code','personFullName','specialtyName','doctorFullName']"
-            #dt>
+        <p-table [value]="listAppointment" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" stripedRows
+            [globalFilterFields]="['code','personFullName','specialtyName','doctorFullName']" #dt>
             <ng-template #caption>
                 <div class="flex justify-end">
                     <p-iconfield>
                         <p-inputicon class="pi pi-search" />
-                        <input pInputText type="text" placeholder="Buscar..." (input)="dt.filterGlobal($event.target.value, 'contains')" />
+                        <input pInputText type="text" placeholder="Buscar..."
+                            (input)="dt.filterGlobal($event.target.value, 'contains')" />
                     </p-iconfield>
                 </div>
             </ng-template>
@@ -25,7 +20,7 @@
                     <th pSortableColumn="personFullName">Paciente <p-sortIcon field="personFullName" /></th>
                     <th pSortableColumn="specialtyName">Especialidad <p-sortIcon field="specialtyName" /></th>
                     <th pSortableColumn="doctorFullName">Doctor <p-sortIcon field="doctorFullName" /></th>
-                    <th pSortableColumn="preferredDate">Fecha pref. <p-sortIcon field="preferredDate" /></th>
+                    <th pSortableColumn="preferredDate">Fecha de la cita <p-sortIcon field="preferredDate" /></th>
                     <th pSortableColumn="status">Estado <p-sortIcon field="status" /></th>
                     <th>Acciones</th>
                 </tr>
@@ -43,10 +38,10 @@
                     <td>{{ item.doctorFullName }}</td>
                     <td>{{ item.preferredDate | date:'dd/MM/yyyy' }}</td>
                     <td><p-tag [value]="item.status" [severity]="getSeverity(item.status)" /></td>
-                <td>
-                    <p-button icon="pi pi-eye" [text]="true" [rounded]="true" severity="info"
-                        [routerLink]="['/appointment/detail', item.idAppointment]" pTooltip="Ver detalle" />
-                </td>
+                    <td>
+                        <p-button icon="pi pi-eye" [text]="true" [rounded]="true" severity="info"
+                            [routerLink]="['/appointment/detail', item.idAppointment]" pTooltip="Ver detalle" />
+                    </td>
                 </tr>
             </ng-template>
             <ng-template #emptymessage>
