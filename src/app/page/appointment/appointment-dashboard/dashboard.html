@@ -56,7 +56,7 @@
                         <th>Paciente</th>
                         <th>Especialidad</th>
                         <th>Doctor</th>
-                        <th>Fecha de la cita</th>
+                        <th>Fecha y hora</th>
                         <th>Estado</th>
                         <th>Acción</th>
                     </tr>
@@ -67,7 +67,7 @@
                         <td class="patient-name">{{ item.personFullName }}</td>
                         <td class="text-muted-cell">{{ item.specialtyName }}</td>
                         <td class="text-muted-cell">{{ item.doctorFullName }}</td>
-                        <td class="text-muted-cell">{{ item.preferredDate | date:'d MMM yyyy' }}</td>
+                        <td class="text-muted-cell">{{ item.preferredDate | date:'d MMM yyyy, h:mm a' }}</td>
                         <td><p-tag [value]="item.status" [severity]="getSeverity(item.status)" /></td>
                         <td>
                             <p-button label="Ver" icon="pi pi-eye" severity="secondary" [outlined]="true" size="small" [routerLink]="['/appointment/detail', item.idAppointment]" />

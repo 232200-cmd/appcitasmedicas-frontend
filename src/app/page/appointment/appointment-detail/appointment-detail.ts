@@ -53,19 +53,19 @@ export class AppointmentDetail implements OnInit {
     newComment: string = '';
 
     processSteps = [
-        { key: 'registered', label: 'Registrado' },
-        { key: 'pending', label: 'Pendiente' },
+        { key: 'pending', label: 'Pendiente de revisión' },
         { key: 'seen', label: 'Visto' },
         { key: 'coordination', label: 'En coordinación' },
-        { key: 'closed', label: 'Cerrado' }
+        { key: 'closed', label: 'Cerrado' },
+        { key: 'refused', label: 'Rechazado' }
     ];
 
     private statusOrder: Record<string, number> = {
-        'Pendiente de revisión': 1,
-        'Visto': 2,
-        'En coordinación': 3,
-        'Cerrado': 4,
-        'Rechazado': 4
+        'Pendiente de revisión': 0,
+        'Visto': 1,
+        'En coordinación': 2,
+        'Cerrado': 3,
+        'Rechazado': -1
     };
 
     constructor(private api: Api) { }
@@ -103,24 +103,39 @@ export class AppointmentDetail implements OnInit {
 
     getStepClass(stepKey: string): string {
         if (!this.appointment) return 'tl-pending';
-        const currentOrder = this.statusOrder[this.appointment.status] ?? 1;
-        const stepOrderMap: Record<string, number> = { registered: 0, pending: 1, seen: 2, coordination: 3, closed: 4 };
+        const status = this.appointment.status;
+
+        // Si la cita fue rechazada
+        if (status === 'Rechazado') {
+            if (stepKey === 'refused') return 'tl-current';
+            if (stepKey === 'closed') return 'tl-pending';
+            // Los pasos antes de rechazado se marcan como completados
+            return 'tl-done';
+        }
+
+        const currentOrder = this.statusOrder[status] ?? 0;
+        const stepOrderMap: Record<string, number> = { pending: 0, seen: 1, coordination: 2, closed: 3, refused: 99 };
         const stepOrder = stepOrderMap[stepKey];
 
         if (stepOrder < currentOrder) return 'tl-done';
         if (stepOrder === currentOrder) return 'tl-current';
-        if (stepKey === 'registered') return 'tl-done';
         return 'tl-pending';
     }
 
     getStepDate(stepKey: string): string {
         if (!this.appointment) return '';
-        if (stepKey === 'registered') {
-            return this.appointment.createdAt ? new Date(this.appointment.createdAt).toLocaleString('es-PE', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '';
-        }
         const cls = this.getStepClass(stepKey);
-        if (cls === 'tl-pending') return 'En espera';
-        if (cls === 'tl-current') return this.appointment.updatedAt ? new Date(this.appointment.updatedAt).toLocaleString('es-PE', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '';
+        if (cls === 'tl-pending') return '';
+        if (stepKey === 'pending') {
+            return this.appointment.createdAt
+                ? new Date(this.appointment.createdAt).toLocaleString('es-PE', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+                : '';
+        }
+        if (cls === 'tl-current' || cls === 'tl-done') {
+            return this.appointment.updatedAt
+                ? new Date(this.appointment.updatedAt).toLocaleString('es-PE', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+                : '';
+        }
         return '';
     }
 

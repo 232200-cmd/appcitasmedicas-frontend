@@ -50,7 +50,7 @@ export class AppointmentInsert implements OnInit {
     fileRowList: any[] = [];
     listFile: any[] = [];
 
-    maxDate: Date = new Date();
+    minDate: Date = new Date();
 
     get personFullNameFb() { return this.frmInsertAppointment.controls['personFullName']; }
     get specialtyFb() { return this.frmInsertAppointment.controls['specialty']; }

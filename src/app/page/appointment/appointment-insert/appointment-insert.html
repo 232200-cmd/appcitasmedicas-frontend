@@ -43,8 +43,8 @@
 
                     <div class="field-group">
                         <label class="field-label">Fecha</label>
-                        <p-datepicker formControlName="preferredDate" [inline]="false" dateFormat="dd/mm/yy"
-                            [minDate]="maxDate" placeholder="dd/mm/aaaa" class="w-full" />
+                        <p-datepicker formControlName="preferredDate" [inline]="false" dateFormat="dd/mm/yy" [showTime]="true" hourFormat="12"
+                            [minDate]="minDate" placeholder="dd/mm/aaaa hh:mm am/pm" class="w-full" />
                         @if ((preferredDateFb.touched || preferredDateFb.dirty) && preferredDateFb.hasError('required'))
                         {
                         <small class="errorMessage">Campo requerido.</small>

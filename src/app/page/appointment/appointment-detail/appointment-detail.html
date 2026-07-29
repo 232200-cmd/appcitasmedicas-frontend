@@ -102,8 +102,8 @@
                         <span class="info-value">{{ appointment.doctorFullName }}</span>
                     </div>
                     <div class="info-row">
-                        <span class="info-label">Fecha de la cita</span>
-                        <span class="info-value">{{ appointment.preferredDate | date:'d MMM yyyy' }}</span>
+                        <span class="info-label">Fecha y hora</span>
+                        <span class="info-value">{{ appointment.preferredDate | date:'d MMM yyyy, h:mm a' }}</span>
                     </div>
                 </ng-template>
             </p-card>
@@ -118,6 +118,8 @@
                             <div class="timeline-marker" [ngClass]="getStepClass(step.key)">
                                 @if (getStepClass(step.key) === 'tl-done') {
                                 <i class="pi pi-check"></i>
+                                } @else if (getStepClass(step.key) === 'tl-current' && step.key === 'refused') {
+                                <i class="pi pi-times"></i>
                                 } @else if (getStepClass(step.key) === 'tl-current') {
                                 <i class="pi pi-clock"></i>
                                 }

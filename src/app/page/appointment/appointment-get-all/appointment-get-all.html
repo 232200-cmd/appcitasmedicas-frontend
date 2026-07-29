@@ -20,7 +20,7 @@
                     <th pSortableColumn="personFullName">Paciente <p-sortIcon field="personFullName" /></th>
                     <th pSortableColumn="specialtyName">Especialidad <p-sortIcon field="specialtyName" /></th>
                     <th pSortableColumn="doctorFullName">Doctor <p-sortIcon field="doctorFullName" /></th>
-                    <th pSortableColumn="preferredDate">Fecha de la cita <p-sortIcon field="preferredDate" /></th>
+                    <th pSortableColumn="preferredDate">Fecha y hora <p-sortIcon field="preferredDate" /></th>
                     <th pSortableColumn="status">Estado <p-sortIcon field="status" /></th>
                     <th>Acciones</th>
                 </tr>
@@ -36,7 +36,7 @@
                     </td>
                     <td>{{ item.specialtyName }}</td>
                     <td>{{ item.doctorFullName }}</td>
-                    <td>{{ item.preferredDate | date:'dd/MM/yyyy' }}</td>
+                    <td>{{ item.preferredDate | date:'dd/MM/yyyy, h:mm a' }}</td>
                     <td><p-tag [value]="item.status" [severity]="getSeverity(item.status)" /></td>
                     <td>
                         <p-button icon="pi pi-eye" [text]="true" [rounded]="true" severity="info"
