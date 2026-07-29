@@ -23,19 +23,17 @@
     margin-bottom: 1.5rem;
 }
 
-.errorMessage {
-    color: #dc2626;
-    font-size: 0.78rem;
-    margin-top: 0.25rem;
-}
+/* ── Tabla ───────────────────────────────────────────── */
 
 :host ::ng-deep .table-card {
+    background: #ffffff !important;
     border-radius: 12px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
     border: 1px solid #e5e7eb;
 }
 
 :host ::ng-deep .table-card .p-card-body {
+    background: #ffffff !important;
     padding: 1.5rem;
 }
 
@@ -55,22 +53,152 @@
 .specialty-cell {
     display: flex;
     align-items: center;
-    gap: 0.7rem;
+    gap: 0.75rem;
 }
 
-.specialty-icon {
-    color: #0d9488;
-    font-size: 1rem;
-    background: #ccfbf1;
-    width: 34px;
-    height: 34px;
+.specialty-icon-wrap {
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
+    background: #ccfbf1;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
+}
+
+.specialty-icon-wrap .pi {
+    color: #0d9488;
+    font-size: 0.9rem;
 }
 
 .specialty-name {
     font-weight: 500;
     color: #111827;
+}
+
+/* PrimeNG tabla overrides */
+:host ::ng-deep .p-datatable { background: #ffffff !important; }
+:host ::ng-deep .p-datatable-table { background: #ffffff !important; }
+
+:host ::ng-deep .p-datatable-thead > tr > th {
+    background: #f8fafc !important;
+    color: #0f2540 !important;
+    border-color: #e5e7eb !important;
+    font-weight: 700 !important;
+}
+
+:host ::ng-deep .p-datatable-tbody > tr {
+    background: #ffffff !important;
+    color: #111827 !important;
+}
+
+:host ::ng-deep .p-datatable-tbody > tr:hover {
+    background: #f8fafc !important;
+}
+
+:host ::ng-deep .p-datatable-tbody > tr > td {
+    border-color: #e5e7eb !important;
+    color: #111827 !important;
+}
+
+:host ::ng-deep .p-paginator {
+    background: #ffffff !important;
+    color: #111827 !important;
+}
+
+:host ::ng-deep .p-inputtext {
+    background: #ffffff !important;
+    color: #111827 !important;
+    border-color: #d1d5db !important;
+}
+
+/* ── Formulario Modal ───────────────────────────────── */
+
+.form-modal {
+    padding: 0.25rem 0 0 0;
+}
+
+/* Cabecera decorativa */
+.form-icon-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: #f0fdf9;
+    border: 1px solid #99f6e4;
+    border-radius: 10px;
+    padding: 0.9rem 1.1rem;
+    margin-bottom: 1.4rem;
+}
+
+.form-icon-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #0d9488;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.form-icon-circle .pi {
+    color: #ffffff;
+    font-size: 1.1rem;
+}
+
+.form-icon-subtitle {
+    font-size: 0.85rem;
+    color: #374151;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* Campo */
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    margin-bottom: 0.5rem;
+}
+
+.form-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #374151;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.form-label-icon {
+    color: #0d9488;
+    font-size: 0.8rem;
+}
+
+.required {
+    color: #ef4444;
+}
+
+.form-input {
+    border-radius: 8px;
+    font-size: 0.92rem;
+}
+
+.errorMessage {
+    color: #dc2626;
+    font-size: 0.78rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+/* Acciones */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid #e5e7eb;
 }

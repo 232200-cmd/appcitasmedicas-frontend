@@ -46,7 +46,7 @@ export class SpecialtyGetAll implements OnInit {
     constructor(private api: Api) {
         this.frmSpecialty = this.formBuilder.group({
             idSpecialty: [''],
-            name: ['', [Validators.required]]
+            name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(60), Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+$')]]
         });
     }
 
@@ -153,5 +153,38 @@ export class SpecialtyGetAll implements OnInit {
         }).catch(() => {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo eliminar la especialidad.' });
         });
+    }
+
+    trimInput(controlName: string): void {
+        const control = this.frmSpecialty.get(controlName);
+        if (control && typeof control.value === 'string') {
+            control.setValue(control.value.trim());
+        }
+    }
+
+    onlyLetters(event: KeyboardEvent): boolean {
+        const char = event.key;
+        if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]$/.test(char)) {
+            event.preventDefault();
+            return false;
+        }
+        return true;
+    }
+
+    onNamePaste(event: ClipboardEvent): void {
+        event.preventDefault();
+        const pasted = event.clipboardData?.getData('text') || '';
+        const cleaned = pasted.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '').slice(0, 60);
+        this.frmSpecialty.get('name')?.setValue(cleaned);
+        this.frmSpecialty.get('name')?.markAsTouched();
+    }
+
+    onNameInput(event: Event): void {
+        const input = event.target as HTMLInputElement;
+        const cleaned = input.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '').slice(0, 60);
+        if (input.value !== cleaned) {
+            input.value = cleaned;
+            this.frmSpecialty.get('name')?.setValue(cleaned, { emitEvent: false });
+        }
     }
 }

@@ -51,10 +51,10 @@ export class DoctorGetAll implements OnInit {
     constructor(private api: Api) {
         this.frmDoctor = this.formBuilder.group({
             idDoctor: [''],
-            firstName: ['', [Validators.required]],
-            surName: ['', [Validators.required]],
-            phoneNumber: ['', [Validators.required]],
-            email: ['', [Validators.required, Validators.email]],
+            firstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50), Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+$')]],
+            surName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50), Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+$')]],
+            phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]{9}$'), Validators.maxLength(9)]],
+            email: ['', [Validators.required, Validators.email, Validators.maxLength(100)]],
             idSpecialty: ['', [Validators.required]]
         });
     }
@@ -90,24 +90,49 @@ export class DoctorGetAll implements OnInit {
     showEditModal(item: any): void {
         this.isEdit = true;
         this.frmDoctor.reset();
-        
-        // Find specialty for doctor to preset it. We need an extra call if we don't have it.
-        // Wait, listDoctor doesn't have idSpecialty, because the backend getAll doesn't return it!
-        // This is a problem, but let's assume we can set it if available or just leave it empty for user to select again.
-        // Actually I should look if backend returns it. I will leave it empty if not found.
         this.frmDoctor.patchValue({
             idDoctor: item.idDoctor,
             firstName: item.firstName,
             surName: item.surName,
             phoneNumber: item.phoneNumber || '',
             email: item.email,
-            idSpecialty: ''
+            idSpecialty: item.idSpecialty || ''
         });
-        
-        // Optional: If we want to really fetch it, we'd need another endpoint. 
-        // For now, they have to re-select it or maybe we can fetch it?
-        
         this.displayModal = true;
+    }
+
+    /** Permite solo dígitos al tipear */
+    onlyNumbers(event: KeyboardEvent): boolean {
+        const char = event.key;
+        if (!/^[0-9]$/.test(char)) {
+            event.preventDefault();
+            return false;
+        }
+        const current = (event.target as HTMLInputElement).value;
+        if (current.length >= 9) {
+            event.preventDefault();
+            return false;
+        }
+        return true;
+    }
+
+    /** Bloquea pegar texto no numérico o que exceda 9 dígitos */
+    onPhonePaste(event: ClipboardEvent): void {
+        event.preventDefault();
+        const pasted = event.clipboardData?.getData('text') || '';
+        const cleaned = pasted.replace(/[^0-9]/g, '').slice(0, 9);
+        this.frmDoctor.get('phoneNumber')?.setValue(cleaned);
+        this.frmDoctor.get('phoneNumber')?.markAsTouched();
+    }
+
+    /** Sanitiza cualquier valor pegado o modificado de otra forma */
+    onPhoneInput(event: Event): void {
+        const input = event.target as HTMLInputElement;
+        const cleaned = input.value.replace(/[^0-9]/g, '').slice(0, 9);
+        if (input.value !== cleaned) {
+            input.value = cleaned;
+            this.frmDoctor.get('phoneNumber')?.setValue(cleaned, { emitEvent: false });
+        }
     }
 
     hideModal(): void {
@@ -189,5 +214,38 @@ export class DoctorGetAll implements OnInit {
         if (!fullName) return '?';
         const parts = fullName.trim().split(' ');
         return parts.length > 1 ? (parts[0][0] + parts[1][0]).toUpperCase() : parts[0][0].toUpperCase();
+    }
+
+    trimInput(controlName: string): void {
+        const control = this.frmDoctor.get(controlName);
+        if (control && typeof control.value === 'string') {
+            control.setValue(control.value.trim());
+        }
+    }
+
+    onlyLetters(event: KeyboardEvent): boolean {
+        const char = event.key;
+        if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]$/.test(char)) {
+            event.preventDefault();
+            return false;
+        }
+        return true;
+    }
+
+    onNamePaste(event: ClipboardEvent, controlName: string): void {
+        event.preventDefault();
+        const pasted = event.clipboardData?.getData('text') || '';
+        const cleaned = pasted.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '').slice(0, 50);
+        this.frmDoctor.get(controlName)?.setValue(cleaned);
+        this.frmDoctor.get(controlName)?.markAsTouched();
+    }
+
+    onNameInput(event: Event, controlName: string): void {
+        const input = event.target as HTMLInputElement;
+        const cleaned = input.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '').slice(0, 50);
+        if (input.value !== cleaned) {
+            input.value = cleaned;
+            this.frmDoctor.get(controlName)?.setValue(cleaned, { emitEvent: false });
+        }
     }
 }

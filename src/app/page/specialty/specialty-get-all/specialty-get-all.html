@@ -34,7 +34,9 @@
                     <tr>
                         <td>
                             <div class="specialty-cell">
-                                <i class="pi pi-heart specialty-icon"></i>
+                                <div class="specialty-icon-wrap">
+                                    <i class="pi pi-heart"></i>
+                                </div>
                                 <span class="specialty-name">{{ item.name }}</span>
                             </div>
                         </td>
@@ -58,17 +60,57 @@
 
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
 
-<p-dialog [header]="isEdit ? 'Editar Especialidad' : 'Registrar Nueva Especialidad'" [(visible)]="displayModal" [modal]="true" [style]="{width: '450px'}" [draggable]="false" [resizable]="false">
-    <form [formGroup]="frmSpecialty" (ngSubmit)="onSaveSubmit()" class="mt-3">
-        <div class="flex flex-column gap-2 mb-4">
-            <label for="name" class="font-semibold">Nombre de especialidad</label>
-            <input pInputText id="name" formControlName="name" placeholder="Ej. Cardiología" class="w-full" />
+<!-- Modal -->
+<p-dialog
+    [header]="isEdit ? 'Editar Especialidad' : 'Registrar Nueva Especialidad'"
+    [(visible)]="displayModal"
+    [modal]="true"
+    [style]="{width: '440px'}"
+    [draggable]="false"
+    [resizable]="false">
+
+    <form [formGroup]="frmSpecialty" (ngSubmit)="onSaveSubmit()" class="form-modal">
+
+        <!-- Ícono decorativo -->
+        <div class="form-icon-header">
+            <div class="form-icon-circle">
+                <i class="pi pi-heart"></i>
+            </div>
+            <p class="form-icon-subtitle">
+                {{ isEdit ? 'Modifica el nombre de la especialidad.' : 'Ingresa el nombre de la nueva especialidad médica.' }}
+            </p>
+        </div>
+
+        <!-- Campo nombre -->
+        <div class="form-field">
+            <label for="name" class="form-label">
+                <i class="pi pi-tag form-label-icon"></i>
+                Nombre de la especialidad <span class="required">*</span>
+            </label>
+            <input
+                pInputText
+                id="name"
+                formControlName="name"
+                placeholder="Ej: Cardiología, Neurología..."
+                class="form-input w-full"
+                autocomplete="off"
+                maxlength="60"
+                (blur)="trimInput('name')"
+                (keypress)="onlyLetters($event)"
+                (paste)="onNamePaste($event)"
+                (input)="onNameInput($event)" />
             @if (frmSpecialty.get('name')?.invalid && (frmSpecialty.get('name')?.dirty || frmSpecialty.get('name')?.touched)) {
-                <small class="errorMessage">El nombre es requerido.</small>
+                @if (frmSpecialty.get('name')?.errors?.['required']) {
+                    <small class="errorMessage"><i class="pi pi-exclamation-circle"></i> El nombre de la especialidad es requerido.</small>
+                } @else if (frmSpecialty.get('name')?.errors?.['minlength']) {
+                    <small class="errorMessage"><i class="pi pi-exclamation-circle"></i> Mínimo 3 caracteres.</small>
+                } @else if (frmSpecialty.get('name')?.errors?.['pattern']) {
+                    <small class="errorMessage"><i class="pi pi-exclamation-circle"></i> Solo se permiten letras y espacios.</small>
+                }
             }
         </div>
 
-        <div class="flex justify-content-end gap-2 mt-4">
+        <div class="form-actions">
             <p-button label="Cancelar" icon="pi pi-times" [text]="true" severity="secondary" (onClick)="hideModal()"></p-button>
             <p-button label="Guardar" icon="pi pi-check" type="submit" [loading]="loadingSave"></p-button>
         </div>

@@ -1,4 +1,4 @@
 export const environment = {
     production: false,
-    urlBase: 'https://apicitasmedicas-backend-1.onrender.com'
+    urlBase: 'http://localhost:8080'
 };
