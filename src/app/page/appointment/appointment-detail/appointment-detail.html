@@ -26,10 +26,10 @@
                     }
                     <div class="file-chip-list">
                         @for (file of appointment.files; track file.idAppointmentfile) {
-                        <span class="file-chip file-chip-clickable" (click)="downloadFile(file)">
+                        <button type="button" class="file-chip file-chip-clickable" (click)="downloadFile(file)">
                             <i class="pi pi-file"></i>{{ file.name }}
                             <i class="pi pi-download download-icon"></i>
-                        </span>
+                        </button>
                         }
                     </div>
                 </ng-template>
@@ -60,9 +60,10 @@
                     </div>
 
                     <div class="comment-input-row">
-                        <input pInputText [(ngModel)]="newComment" placeholder="Escribir un comentario interno..."
+                        <label for="new-comment-input" class="sr-only">Escribir comentario</label>
+                        <input id="new-comment-input" pInputText [(ngModel)]="newComment" placeholder="Escribir un comentario interno..."
                             class="w-full" />
-                        <p-button label="Enviar" icon="pi pi-send" (click)="sendComment()" />
+                        <p-button label="Enviar" icon="pi pi-send" (click)="sendComment()" (keydown.enter)="sendComment()" />
                     </div>
                 </ng-template>
             </p-card>
@@ -71,11 +72,11 @@
             @if (authService.isAdmin()) {
             <div class="action-buttons-row">
                 <p-button label="Coordinar cita" severity="success" styleClass="action-btn"
-                    (click)="coordinateAppointment($event)" />
+                    (click)="coordinateAppointment($event)" (keydown.enter)="coordinateAppointment($event)" />
                 <p-button label="Rechazar" severity="danger" styleClass="action-btn"
-                    (click)="rejectAppointment($event)" />
+                    (click)="rejectAppointment($event)" (keydown.enter)="rejectAppointment($event)" />
                 <p-button label="Cerrar caso" styleClass="action-btn action-btn-navy"
-                    (click)="closeAppointment($event)" />
+                    (click)="closeAppointment($event)" (keydown.enter)="closeAppointment($event)" />
             </div>
             }
         </div>

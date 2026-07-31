@@ -13,7 +13,8 @@
                 <span class="table-title">Doctores registrados</span>
                 <p-iconfield>
                     <p-inputicon class="pi pi-search" />
-                    <input pInputText type="text" placeholder="Buscar por nombre o email..." (input)="dt.filterGlobal($event.target.value, 'contains')" />
+                    <label for="doctor-search" class="sr-only">Buscar doctor</label>
+                    <input id="doctor-search" pInputText type="text" placeholder="Buscar por nombre o email..." (input)="dt.filterGlobal($event.target.value, 'contains')" />
                 </p-iconfield>
             </div>
 
@@ -26,11 +27,11 @@
                 #dt>
                 <ng-template #header>
                     <tr>
-                        <th>Nombre completo</th>
-                        <th>Correo electrónico</th>
-                        <th>Teléfono</th>
-                        <th>Especialidad</th>
-                        <th style="width: 120px; text-align: center;">Acciones</th>
+                        <th scope="col">Nombre completo</th>
+                        <th scope="col">Correo electrónico</th>
+                        <th scope="col">Teléfono</th>
+                        <th scope="col">Especialidad</th>
+                        <th scope="col" style="width: 120px; text-align: center;">Acciones</th>
                     </tr>
                 </ng-template>
                 <ng-template #body let-item>

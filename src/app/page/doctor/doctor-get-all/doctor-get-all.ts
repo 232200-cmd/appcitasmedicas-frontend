@@ -35,10 +35,10 @@ import { apidoctorgetall, apidoctorinsert, apidoctorupdate, apidoctordelete, api
     styleUrl: './doctor-get-all.css'
 })
 export class DoctorGetAll implements OnInit {
-    private cdr = inject(ChangeDetectorRef);
-    private messageService = inject(MessageService);
-    private confirmationService = inject(ConfirmationService);
-    private formBuilder = inject(FormBuilder);
+    private readonly cdr = inject(ChangeDetectorRef);
+    private readonly messageService = inject(MessageService);
+    private readonly confirmationService = inject(ConfirmationService);
+    private readonly formBuilder = inject(FormBuilder);
 
     listDoctor: any[] = [];
     listSpecialty: any[] = [];
@@ -48,12 +48,12 @@ export class DoctorGetAll implements OnInit {
     frmDoctor: FormGroup;
     loadingSave = false;
 
-    constructor(private api: Api) {
+    constructor(private readonly api: Api) {
         this.frmDoctor = this.formBuilder.group({
             idDoctor: [''],
-            firstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50), Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+$')]],
-            surName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50), Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+$')]],
-            phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]{9}$'), Validators.maxLength(9)]],
+            firstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50), Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/)]],
+            surName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50), Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/)]],
+            phoneNumber: ['', [Validators.required, Validators.pattern(/^\d{9}$/), Validators.maxLength(9)]],
             email: ['', [Validators.required, Validators.email, Validators.maxLength(100)]],
             idSpecialty: ['', [Validators.required]]
         });
@@ -104,7 +104,7 @@ export class DoctorGetAll implements OnInit {
     /** Permite solo dígitos al tipear */
     onlyNumbers(event: KeyboardEvent): boolean {
         const char = event.key;
-        if (!/^[0-9]$/.test(char)) {
+        if (!/^\d$/.test(char)) {
             event.preventDefault();
             return false;
         }
@@ -120,7 +120,7 @@ export class DoctorGetAll implements OnInit {
     onPhonePaste(event: ClipboardEvent): void {
         event.preventDefault();
         const pasted = event.clipboardData?.getData('text') || '';
-        const cleaned = pasted.replace(/[^0-9]/g, '').slice(0, 9);
+        const cleaned = pasted.replace(/\D/g, '').slice(0, 9);
         this.frmDoctor.get('phoneNumber')?.setValue(cleaned);
         this.frmDoctor.get('phoneNumber')?.markAsTouched();
     }
@@ -128,7 +128,7 @@ export class DoctorGetAll implements OnInit {
     /** Sanitiza cualquier valor pegado o modificado de otra forma */
     onPhoneInput(event: Event): void {
         const input = event.target as HTMLInputElement;
-        const cleaned = input.value.replace(/[^0-9]/g, '').slice(0, 9);
+        const cleaned = input.value.replace(/\D/g, '').slice(0, 9);
         if (input.value !== cleaned) {
             input.value = cleaned;
             this.frmDoctor.get('phoneNumber')?.setValue(cleaned, { emitEvent: false });

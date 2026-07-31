@@ -16,22 +16,22 @@
         <form [formGroup]="frmRegister" (ngSubmit)="onSubmit()">
             <div class="form-grid">
                 <div class="field-group">
-                    <label class="field-label">
+                    <label for="reg-firstName" class="field-label">
                         <i class="pi pi-user"></i>
                         Nombres
                     </label>
-                    <input pInputText formControlName="firstName" placeholder="Carlos" class="w-full" />
+                    <input id="reg-firstName" pInputText formControlName="firstName" placeholder="Carlos" class="w-full" />
                     @if ((firstNameFb.touched || firstNameFb.dirty) && firstNameFb.hasError('required')) {
                     <small class="errorMessage">Campo requerido.</small>
                     }
                 </div>
 
                 <div class="field-group">
-                    <label class="field-label">
+                    <label for="reg-surName" class="field-label">
                         <i class="pi pi-user"></i>
                         Apellidos
                     </label>
-                    <input pInputText formControlName="surName" placeholder="Mamani Quispe" class="w-full" />
+                    <input id="reg-surName" pInputText formControlName="surName" placeholder="Mamani Quispe" class="w-full" />
                     @if ((surNameFb.touched || surNameFb.dirty) && surNameFb.hasError('required')) {
                     <small class="errorMessage">Campo requerido.</small>
                     }
@@ -39,11 +39,11 @@
             </div>
 
             <div class="field-group">
-                <label class="field-label">
+                <label for="reg-email" class="field-label">
                     <i class="pi pi-envelope"></i>
                     Correo electrónico
                 </label>
-                <input pInputText formControlName="email" placeholder="correo@ejemplo.com" class="w-full" />
+                <input id="reg-email" pInputText formControlName="email" placeholder="correo@ejemplo.com" class="w-full" />
                 @if ((emailFb.touched || emailFb.dirty) && emailFb.hasError('required')) {
                     <small class="errorMessage">El correo es requerido.</small>
                 }
@@ -53,11 +53,11 @@
             </div>
 
             <div class="field-group">
-                <label class="field-label">
+                <label for="reg-password" class="field-label">
                     <i class="pi pi-lock"></i>
                     Contraseña
                 </label>
-                <p-password formControlName="password" [feedback]="false" [toggleMask]="true" placeholder="Crea una contraseña segura" styleClass="w-full" inputStyleClass="w-full" (onInput)="onPasswordInput()" />
+                <p-password id="reg-password" formControlName="password" [feedback]="false" [toggleMask]="true" placeholder="Crea una contraseña segura" styleClass="w-full" inputStyleClass="w-full" (onInput)="onPasswordInput()" />
 
                 <!-- Strength bar -->
                 @if (passwordValue().length > 0) {

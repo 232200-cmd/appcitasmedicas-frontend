@@ -29,11 +29,11 @@ import { apiappointmentgetall } from '../../../api/functions';
     styleUrl: './dashboard.css'
 })
 export class AppointmentDashboard implements OnInit {
-    private cdr = inject(ChangeDetectorRef);
+    private readonly cdr = inject(ChangeDetectorRef);
 
     listAppointment: any[] = [];
 
-    constructor(private api: Api) {}
+    constructor(private readonly api: Api) {}
 
     ngOnInit(): void {
         this.initialization();

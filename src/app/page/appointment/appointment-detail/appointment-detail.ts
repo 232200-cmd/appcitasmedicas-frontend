@@ -41,13 +41,13 @@ import { environment } from '../../../environments/environments';
     styleUrl: './appointment-detail.css'
 })
 export class AppointmentDetail implements OnInit {
-    private confirmationService = inject(ConfirmationService);
-    private messageService = inject(MessageService);
-    private route = inject(ActivatedRoute);
-    private router = inject(Router);
-    private cdr = inject(ChangeDetectorRef);
-    private http = inject(HttpClient);
-    authService = inject(AuthService);
+    private readonly confirmationService = inject(ConfirmationService);
+    private readonly messageService = inject(MessageService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
+    private readonly cdr = inject(ChangeDetectorRef);
+    private readonly http = inject(HttpClient);
+    readonly authService = inject(AuthService);
 
     appointment: any = null;
     newComment: string = '';
@@ -60,7 +60,7 @@ export class AppointmentDetail implements OnInit {
         { key: 'refused', label: 'Rechazado' }
     ];
 
-    private statusOrder: Record<string, number> = {
+    private readonly statusOrder: Record<string, number> = {
         'Pendiente de revisión': 0,
         'Visto': 1,
         'En coordinación': 2,
@@ -68,7 +68,7 @@ export class AppointmentDetail implements OnInit {
         'Rechazado': -1
     };
 
-    constructor(private api: Api) { }
+    constructor(private readonly api: Api) { }
 
     ngOnInit(): void {
         const idAppointment = this.route.snapshot.paramMap.get('idAppointment');
@@ -150,7 +150,7 @@ export class AppointmentDetail implements OnInit {
                 link.download = file.name;
                 document.body.appendChild(link);
                 link.click();
-                document.body.removeChild(link);
+                link.remove();
                 window.URL.revokeObjectURL(downloadUrl);
             },
             error: () => {

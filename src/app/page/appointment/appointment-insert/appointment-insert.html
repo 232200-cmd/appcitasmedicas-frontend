@@ -10,8 +10,8 @@
             <form [formGroup]="frmInsertAppointment">
                 <div class="form-grid">
                     <div class="field-group">
-                        <label class="field-label">Nombre completo</label>
-                        <input pInputText formControlName="personFullName" placeholder="Ej. María González López"
+                        <label for="ins-name" class="field-label">Nombre completo</label>
+                        <input id="ins-name" pInputText formControlName="personFullName" placeholder="Ej. María González López"
                             class="w-full" />
                         @if ((personFullNameFb.touched || personFullNameFb.dirty) &&
                         personFullNameFb.hasError('required')) {
@@ -20,8 +20,8 @@
                     </div>
 
                     <div class="field-group">
-                        <label class="field-label">Especialidad</label>
-                        <p-select [options]="listSpecialty" formControlName="specialty" optionLabel="name"
+                        <label for="ins-specialty" class="field-label">Especialidad</label>
+                        <p-select id="ins-specialty" [options]="listSpecialty" formControlName="specialty" optionLabel="name"
                             placeholder="Seleccione una especialidad" class="w-full" />
                         @if ((specialtyFb.touched || specialtyFb.dirty) && specialtyFb.hasError('required')) {
                         <small class="errorMessage">Campo requerido.</small>
@@ -29,8 +29,8 @@
                     </div>
 
                     <div class="field-group">
-                        <label class="field-label"><i class="pi pi-id-card"></i> Doctor *</label>
-                        <p-select [options]="listDoctor" formControlName="doctor" optionLabel="fullName"
+                        <label for="ins-doctor" class="field-label"><i class="pi pi-id-card"></i> Doctor *</label>
+                        <p-select id="ins-doctor" [options]="listDoctor" formControlName="doctor" optionLabel="fullName"
                             [placeholder]="specialtyFb.value ? 'Seleccione un doctor' : 'Primero seleccione una especialidad'"
                             [disabled]="!specialtyFb.value" class="w-full" />
                         @if (specialtyFb.value && listDoctor.length === 0) {
@@ -42,8 +42,8 @@
                     </div>
 
                     <div class="field-group">
-                        <label class="field-label">Fecha</label>
-                        <p-datepicker formControlName="preferredDate" [inline]="false" dateFormat="dd/mm/yy" [showTime]="true" hourFormat="12"
+                        <label for="ins-date" class="field-label">Fecha</label>
+                        <p-datepicker id="ins-date" formControlName="preferredDate" [inline]="false" dateFormat="dd/mm/yy" [showTime]="true" hourFormat="12"
                             [minDate]="minDate" placeholder="dd/mm/aaaa hh:mm am/pm" class="w-full" />
                         @if ((preferredDateFb.touched || preferredDateFb.dirty) && preferredDateFb.hasError('required'))
                         {
@@ -53,8 +53,8 @@
                 </div>
 
                 <div class="field-group full-width">
-                    <label class="field-label">Motivo de consulta</label>
-                    <textarea pTextarea formControlName="description" rows="4"
+                    <label for="ins-desc" class="field-label">Motivo de consulta</label>
+                    <textarea id="ins-desc" pTextarea formControlName="description" rows="4"
                         placeholder="Describa brevemente el motivo de su consulta y cualquier síntoma relevante..."
                         class="w-full"></textarea>
                     @if ((descriptionFb.touched || descriptionFb.dirty) && descriptionFb.hasError('required')) {
@@ -63,16 +63,16 @@
                 </div>
 
                 <div class="field-group full-width">
-                    <label class="field-label">Adjuntar exámenes o recetas (opcional)</label>
+                    <span class="field-label">Adjuntar exámenes o recetas (opcional)</span>
 
                     @if (fileRowList.length === 0) {
-                    <div class="upload-zone" (click)="addFile()">
+                    <button type="button" class="upload-zone" (click)="addFile()">
                         <i class="pi pi-upload upload-icon"></i>
                         <p class="upload-text">
                             Arrastre archivos aquí o <span class="upload-link">haga clic para seleccionar</span>
                         </p>
                         <p class="upload-hint">PDF, JPG, PNG — máximo 10 MB por archivo</p>
-                    </div>
+                    </button>
                     }
 
                     @if (fileRowList.length > 0) {
@@ -81,11 +81,11 @@
                         <div class="file-row">
                             <p-fileUpload mode="basic" chooseLabel="Seleccionar archivo" chooseIcon="pi pi-file"
                                 (onSelect)="onFileSelect($event, value.id)" />
-                            <p-button icon="pi pi-trash" severity="danger" [text]="true" (click)="removeFile(value)" />
+                            <p-button icon="pi pi-trash" severity="danger" [text]="true" (click)="removeFile(value)" (keydown.enter)="removeFile(value)" />
                         </div>
                         }
                         <p-button label="Agregar otro archivo" icon="pi pi-plus" severity="secondary" [text]="true"
-                            size="small" (click)="addFile()" />
+                            size="small" (click)="addFile()" (keydown.enter)="addFile()" />
                     </div>
                     }
                 </div>
@@ -94,8 +94,8 @@
 
                 <div class="form-actions">
                     <p-button label="Cancelar" severity="secondary" [outlined]="true"
-                        (click)="frmInsertAppointment.reset()" />
-                    <p-button label="Enviar solicitud" (click)="sendInsertAppointment($event)" />
+                        (click)="frmInsertAppointment.reset()" (keydown.enter)="frmInsertAppointment.reset()" />
+                    <p-button label="Enviar solicitud" (click)="sendInsertAppointment($event)" (keydown.enter)="sendInsertAppointment($event)" />
                 </div>
             </form>
         </ng-template>

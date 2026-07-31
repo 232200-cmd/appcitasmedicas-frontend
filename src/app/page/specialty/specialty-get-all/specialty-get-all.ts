@@ -31,10 +31,10 @@ import { apispecialtygetall, apispecialtyinsert, apispecialtyupdate, apispecialt
     styleUrl: './specialty-get-all.css'
 })
 export class SpecialtyGetAll implements OnInit {
-    private cdr = inject(ChangeDetectorRef);
-    private messageService = inject(MessageService);
-    private confirmationService = inject(ConfirmationService);
-    private formBuilder = inject(FormBuilder);
+    private readonly cdr = inject(ChangeDetectorRef);
+    private readonly messageService = inject(MessageService);
+    private readonly confirmationService = inject(ConfirmationService);
+    private readonly formBuilder = inject(FormBuilder);
 
     listSpecialty: any[] = [];
     
@@ -43,10 +43,10 @@ export class SpecialtyGetAll implements OnInit {
     frmSpecialty: FormGroup;
     loadingSave = false;
 
-    constructor(private api: Api) {
+    constructor(private readonly api: Api) {
         this.frmSpecialty = this.formBuilder.group({
             idSpecialty: [''],
-            name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(60), Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+$')]]
+            name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50), Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/)]]
         });
     }
 

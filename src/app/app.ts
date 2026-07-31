@@ -23,11 +23,11 @@ import { AuthService } from './auth/auth.service';
     styleUrls: ['./app.css']
 })
 export class App implements OnInit {
-    authService = inject(AuthService);
-    private router = inject(Router);
-    private location = inject(Location);
+    readonly authService = inject(AuthService);
+    private readonly router = inject(Router);
+    private readonly location = inject(Location);
 
-    private historyStack: string[] = [];
+    private readonly historyStack: string[] = [];
     canGoBack = signal<boolean>(false);
 
     navItems = computed(() => {

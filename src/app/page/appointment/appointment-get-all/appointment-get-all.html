@@ -9,20 +9,21 @@
                 <div class="flex justify-end">
                     <p-iconfield>
                         <p-inputicon class="pi pi-search" />
-                        <input pInputText type="text" placeholder="Buscar..."
+                        <label for="appt-search" class="sr-only">Buscar cita</label>
+                        <input id="appt-search" pInputText type="text" placeholder="Buscar..."
                             (input)="dt.filterGlobal($event.target.value, 'contains')" />
                     </p-iconfield>
                 </div>
             </ng-template>
             <ng-template #header>
                 <tr>
-                    <th pSortableColumn="code">Código <p-sortIcon field="code" /></th>
-                    <th pSortableColumn="personFullName">Paciente <p-sortIcon field="personFullName" /></th>
-                    <th pSortableColumn="specialtyName">Especialidad <p-sortIcon field="specialtyName" /></th>
-                    <th pSortableColumn="doctorFullName">Doctor <p-sortIcon field="doctorFullName" /></th>
-                    <th pSortableColumn="preferredDate">Fecha y hora <p-sortIcon field="preferredDate" /></th>
-                    <th pSortableColumn="status">Estado <p-sortIcon field="status" /></th>
-                    <th>Acciones</th>
+                    <th scope="col" pSortableColumn="code">Código <p-sortIcon field="code" /></th>
+                    <th scope="col" pSortableColumn="personFullName">Paciente <p-sortIcon field="personFullName" /></th>
+                    <th scope="col" pSortableColumn="specialtyName">Especialidad <p-sortIcon field="specialtyName" /></th>
+                    <th scope="col" pSortableColumn="doctorFullName">Doctor <p-sortIcon field="doctorFullName" /></th>
+                    <th scope="col" pSortableColumn="preferredDate">Fecha y hora <p-sortIcon field="preferredDate" /></th>
+                    <th scope="col" pSortableColumn="status">Estado <p-sortIcon field="status" /></th>
+                    <th scope="col">Acciones</th>
                 </tr>
             </ng-template>
             <ng-template #body let-item>

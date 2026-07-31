@@ -37,9 +37,9 @@ import { ConfirmationService, MessageService } from 'primeng/api';
     styleUrl: './appointment-insert.css'
 })
 export class AppointmentInsert implements OnInit {
-    private confirmationService = inject(ConfirmationService);
-    private messageService = inject(MessageService);
-    private router = inject(Router);
+    private readonly confirmationService = inject(ConfirmationService);
+    private readonly messageService = inject(MessageService);
+    private readonly router = inject(Router);
 
     frmInsertAppointment: FormGroup;
 
@@ -58,7 +58,7 @@ export class AppointmentInsert implements OnInit {
     get descriptionFb() { return this.frmInsertAppointment.controls['description']; }
     get preferredDateFb() { return this.frmInsertAppointment.controls['preferredDate']; }
 
-    constructor(private formBuilder: FormBuilder, private api: Api) {
+    constructor(private readonly formBuilder: FormBuilder, private readonly api: Api) {
         this.frmInsertAppointment = this.formBuilder.group({
             'personFullName': ['', [Validators.required]],
             'specialty': ['', [Validators.required]],
@@ -101,7 +101,7 @@ export class AppointmentInsert implements OnInit {
     }
 
     removeFile(element: any): void {
-        let tempElement = JSON.parse(JSON.stringify(element));
+        let tempElement = structuredClone(element);
         let positionTemp = this.fileRowList.indexOf(element);
         this.fileRowList.splice(positionTemp, 1);
         let indexTemp = 0;

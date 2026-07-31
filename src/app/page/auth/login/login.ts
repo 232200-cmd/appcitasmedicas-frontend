@@ -22,9 +22,9 @@ import { AuthService } from '../../../auth/auth.service';
     styleUrl: './login.css'
 })
 export class Login {
-    private messageService = inject(MessageService);
-    private authService = inject(AuthService);
-    private router = inject(Router);
+    private readonly messageService = inject(MessageService);
+    private readonly authService = inject(AuthService);
+    private readonly router = inject(Router);
 
     frmLogin: FormGroup;
     loading = signal<boolean>(false);
@@ -32,7 +32,7 @@ export class Login {
     get emailFb() { return this.frmLogin.controls['email']; }
     get passwordFb() { return this.frmLogin.controls['password']; }
 
-    constructor(private formBuilder: FormBuilder, private api: Api) {
+    constructor(private readonly formBuilder: FormBuilder, private readonly api: Api) {
         this.frmLogin = this.formBuilder.group({
             'email': ['', [Validators.required, Validators.email]],
             'password': ['', [Validators.required]]

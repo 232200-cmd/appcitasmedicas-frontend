@@ -21,8 +21,8 @@ import { apiauthregister, Apiauthregister$Params } from '../../../api/functions'
     styleUrl: './register.css'
 })
 export class Register {
-    private messageService = inject(MessageService);
-    private router = inject(Router);
+    private readonly messageService = inject(MessageService);
+    private readonly router = inject(Router);
 
     frmRegister: FormGroup;
     loading = signal<boolean>(false);
@@ -32,8 +32,8 @@ export class Register {
     hasMinLength = computed(() => this.passwordValue().length >= 8);
     hasUppercase = computed(() => /[A-Z]/.test(this.passwordValue()));
     hasLowercase = computed(() => /[a-z]/.test(this.passwordValue()));
-    hasNumber = computed(() => /[0-9]/.test(this.passwordValue()));
-    hasSpecial = computed(() => /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(this.passwordValue()));
+    hasNumber = computed(() => /\d/.test(this.passwordValue()));
+    hasSpecial = computed(() => /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(this.passwordValue()));
 
     strengthLevel = computed(() => {
         const checks = [this.hasMinLength(), this.hasUppercase(), this.hasLowercase(), this.hasNumber(), this.hasSpecial()];
@@ -50,7 +50,7 @@ export class Register {
     get emailFb() { return this.frmRegister.controls['email']; }
     get passwordFb() { return this.frmRegister.controls['password']; }
 
-    constructor(private formBuilder: FormBuilder, private api: Api) {
+    constructor(private readonly formBuilder: FormBuilder, private readonly api: Api) {
         this.frmRegister = this.formBuilder.group({
             'firstName': ['', [Validators.required]],
             'surName': ['', [Validators.required]],
@@ -67,8 +67,8 @@ export class Register {
         if (value.length < 8) errors['minLength'] = true;
         if (!/[A-Z]/.test(value)) errors['noUppercase'] = true;
         if (!/[a-z]/.test(value)) errors['noLowercase'] = true;
-        if (!/[0-9]/.test(value)) errors['noNumber'] = true;
-        if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(value)) errors['noSpecial'] = true;
+        if (!/\d/.test(value)) errors['noNumber'] = true;
+        if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(value)) errors['noSpecial'] = true;
 
         return Object.keys(errors).length ? { passwordStrength: errors } : null;
     }

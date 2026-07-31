@@ -39,7 +39,8 @@
                 <span class="table-title">Solicitudes recientes</span>
                 <p-iconfield>
                     <p-inputicon class="pi pi-search" />
-                    <input pInputText type="text" placeholder="Buscar por paciente, código..." (input)="dt.filterGlobal($event.target.value, 'contains')" />
+                    <label for="dash-search" class="sr-only">Buscar cita</label>
+                    <input id="dash-search" pInputText type="text" placeholder="Buscar por paciente, código..." (input)="dt.filterGlobal($event.target.value, 'contains')" />
                 </p-iconfield>
             </div>
 
@@ -52,13 +53,13 @@
                 #dt>
                 <ng-template #header>
                     <tr>
-                        <th>Código</th>
-                        <th>Paciente</th>
-                        <th>Especialidad</th>
-                        <th>Doctor</th>
-                        <th>Fecha y hora</th>
-                        <th>Estado</th>
-                        <th>Acción</th>
+                        <th scope="col">Código</th>
+                        <th scope="col">Paciente</th>
+                        <th scope="col">Especialidad</th>
+                        <th scope="col">Doctor</th>
+                        <th scope="col">Fecha y hora</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Acción</th>
                     </tr>
                 </ng-template>
                 <ng-template #body let-item>

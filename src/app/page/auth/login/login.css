@@ -115,7 +115,7 @@
 
 .auth-subtitle {
     font-size: 0.88rem;
-    color: #6b7280;
+    color: #4b5563;
     margin: 0;
     line-height: 1.5;
 }
@@ -124,7 +124,7 @@
 .auth-welcome {
     font-size: 0.83rem;
     color: #0f3a5f;
-    background: linear-gradient(135deg, rgba(15, 58, 95, 0.05), rgba(20, 143, 119, 0.05));
+    background: #f0f7f5;
     border: 1px solid rgba(15, 58, 95, 0.08);
     border-radius: 12px;
     padding: 0.7rem 1rem;
@@ -311,7 +311,7 @@
 }
 
 .auth-feature {
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.15);

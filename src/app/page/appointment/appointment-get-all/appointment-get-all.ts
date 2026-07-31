@@ -44,13 +44,13 @@ import { ConfirmationService, MessageService } from 'primeng/api';
     styleUrl: './appointment-get-all.css'
 })
 export class AppointmentGetAll implements OnInit {
-    private confirmationService = inject(ConfirmationService);
-    private messageService = inject(MessageService);
-    private cdr = inject(ChangeDetectorRef);
+    private readonly confirmationService = inject(ConfirmationService);
+    private readonly messageService = inject(MessageService);
+    private readonly cdr = inject(ChangeDetectorRef);
 
     listAppointment: any[] = [];
 
-    constructor(private api: Api) {}
+    constructor(private readonly api: Api) {}
 
     ngOnInit(): void {
         this.initialization();

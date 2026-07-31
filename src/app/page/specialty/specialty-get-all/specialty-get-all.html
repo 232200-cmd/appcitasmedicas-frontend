@@ -13,7 +13,8 @@
                 <span class="table-title">Especialidades registradas</span>
                 <p-iconfield>
                     <p-inputicon class="pi pi-search" />
-                    <input pInputText type="text" placeholder="Buscar especialidad..." (input)="dt.filterGlobal($event.target.value, 'contains')" />
+                    <label for="specialty-search" class="sr-only">Buscar especialidad</label>
+                    <input id="specialty-search" pInputText type="text" placeholder="Buscar especialidad..." (input)="dt.filterGlobal($event.target.value, 'contains')" />
                 </p-iconfield>
             </div>
 
@@ -26,8 +27,8 @@
                 #dt>
                 <ng-template #header>
                     <tr>
-                        <th>Especialidad</th>
-                        <th style="width: 120px; text-align: center;">Acciones</th>
+                        <th scope="col">Especialidad</th>
+                        <th scope="col" style="width: 120px; text-align: center;">Acciones</th>
                     </tr>
                 </ng-template>
                 <ng-template #body let-item>
