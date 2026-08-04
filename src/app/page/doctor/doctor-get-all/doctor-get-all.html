@@ -179,7 +179,7 @@
                 <i class="pi pi-star form-label-icon"></i> Especialidad <span class="required">*</span>
             </label>
             <p-select formControlName="idSpecialty" [options]="listSpecialty" optionLabel="name" optionValue="idSpecialty"
-                      placeholder="Seleccione una especialidad" [style]="{'width':'100%'}"></p-select>
+                      placeholder="Seleccione una especialidad" [style]="{'width':'100%'}" appendTo="body"></p-select>
             @if (frmDoctor.get('idSpecialty')?.invalid && (frmDoctor.get('idSpecialty')?.dirty || frmDoctor.get('idSpecialty')?.touched)) {
                 <small class="errorMessage"><i class="pi pi-exclamation-circle"></i> La especialidad es requerida.</small>
             }
