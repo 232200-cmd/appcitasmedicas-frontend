@@ -22,6 +22,7 @@ import {
     Apiappointmentclose$Params
 } from '../../../api/functions';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { getAppointmentSeverity, getInitials, parseApiResponse, SeverityType } from '../../../shared/shared-utils';
 
 @Component({
     selector: 'app-appointment-get-all',
@@ -59,7 +60,7 @@ export class AppointmentGetAll implements OnInit {
     private initialization(): void {
         setTimeout(() => {
             this.api.invoke(apiappointmentgetall).then((response: any) => {
-                const data = typeof response === 'string' ? JSON.parse(response) : response;
+                const data = parseApiResponse(response);
                 this.listAppointment = data.listAppointment;
                 this.cdr.detectChanges();
             });
@@ -71,20 +72,11 @@ export class AppointmentGetAll implements OnInit {
     }
 
     getInitials(fullName: string): string {
-        if (!fullName) return '?';
-        const parts = fullName.trim().split(' ');
-        return parts.length > 1 ? (parts[0][0] + parts[1][0]).toUpperCase() : parts[0][0].toUpperCase();
+        return getInitials(fullName);
     }
 
-    getSeverity(status: string): 'success' | 'info' | 'warn' | 'danger' | 'secondary' {
-        switch (status) {
-            case 'Pendiente de revisión': return 'warn';
-            case 'Visto': return 'info';
-            case 'En coordinación': return 'secondary';
-            case 'Cerrado': return 'success';
-            case 'Rechazado': return 'danger';
-            default: return 'info';
-        }
+    getSeverity(status: string): SeverityType {
+        return getAppointmentSeverity(status);
     }
 
     seenAppointment(event: Event, item: any): void {
@@ -98,7 +90,7 @@ export class AppointmentGetAll implements OnInit {
             accept: () => {
                 const params: Apiappointmentseen$Params = { idAppointment: item.idAppointment };
                 this.api.invoke(apiappointmentseen, params).then((response: any) => {
-                    const data = typeof response === 'string' ? JSON.parse(response) : response;
+                    const data = parseApiResponse(response);
                     if (data.type === 'success') {
                         item.status = 'Visto';
                         this.messageService.add({ severity: 'success', summary: 'Correcto', detail: data.listMessage[0] });
@@ -122,7 +114,7 @@ export class AppointmentGetAll implements OnInit {
             accept: () => {
                 const params: Apiappointmentreject$Params = { idAppointment: item.idAppointment };
                 this.api.invoke(apiappointmentreject, params).then((response: any) => {
-                    const data = typeof response === 'string' ? JSON.parse(response) : response;
+                    const data = parseApiResponse(response);
                     if (data.type === 'success') {
                         item.status = 'Rechazado';
                         this.messageService.add({ severity: 'success', summary: 'Correcto', detail: data.listMessage[0] });
@@ -146,7 +138,7 @@ export class AppointmentGetAll implements OnInit {
             accept: () => {
                 const params: Apiappointmentclose$Params = { idAppointment: item.idAppointment };
                 this.api.invoke(apiappointmentclose, params).then((response: any) => {
-                    const data = typeof response === 'string' ? JSON.parse(response) : response;
+                    const data = parseApiResponse(response);
                     if (data.type === 'success') {
                         item.status = 'Cerrado';
                         this.messageService.add({ severity: 'success', summary: 'Correcto', detail: data.listMessage[0] });

@@ -56,7 +56,7 @@
                         <i class="pi pi-lock"></i>
                         Contraseña
                     </label>
-                    <p-password id="login-password" formControlName="password" [feedback]="false" [toggleMask]="true" placeholder="Tu contraseña" styleClass="w-full" inputStyleClass="w-full" />
+                    <p-password inputId="login-password" formControlName="password" [feedback]="false" [toggleMask]="true" placeholder="Tu contraseña" styleClass="w-full" inputStyleClass="w-full" />
                     @if ((passwordFb.touched || passwordFb.dirty) && passwordFb.hasError('required')) {
                         <small class="errorMessage">La contraseña es requerida.</small>
                     }

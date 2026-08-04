@@ -11,6 +11,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Api } from '../../../api/api';
 import { apispecialtygetall, apispecialtyinsert, apispecialtyupdate, apispecialtydelete } from '../../../api/functions';
+import { parseApiResponse } from '../../../shared/shared-utils';
 
 @Component({
     selector: 'app-specialty-get-all',
@@ -37,7 +38,7 @@ export class SpecialtyGetAll implements OnInit {
     private readonly formBuilder = inject(FormBuilder);
 
     listSpecialty: any[] = [];
-    
+
     displayModal = false;
     isEdit = false;
     frmSpecialty: FormGroup;
@@ -57,7 +58,7 @@ export class SpecialtyGetAll implements OnInit {
     private initialization(): void {
         setTimeout(() => {
             this.api.invoke(apispecialtygetall).then((response: any) => {
-                const data = typeof response === 'string' ? JSON.parse(response) : response;
+                const data = parseApiResponse(response);
                 this.listSpecialty = data.listSpecialty || [];
                 this.cdr.detectChanges();
             });
@@ -91,40 +92,26 @@ export class SpecialtyGetAll implements OnInit {
         }
 
         this.loadingSave = true;
-        
-        if (this.isEdit) {
-            const params = { body: this.frmSpecialty.value };
-            this.api.invoke(apispecialtyupdate, params).then((response: any) => {
-                const data = typeof response === 'string' ? JSON.parse(response) : response;
-                this.loadingSave = false;
-                if (data.type === 'success') {
-                    this.messageService.add({ severity: 'success', summary: 'Éxito', detail: data.listMessage[0] });
-                    this.hideModal();
-                    this.initialization();
-                } else {
-                    this.messageService.add({ severity: 'error', summary: 'Error', detail: data.listMessage[0] });
-                }
-            }).catch(() => {
-                this.loadingSave = false;
-                this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Algo salió mal al actualizar.' });
-            });
-        } else {
-            const params = { body: { name: this.frmSpecialty.value.name } };
-            this.api.invoke(apispecialtyinsert, params).then((response: any) => {
-                const data = typeof response === 'string' ? JSON.parse(response) : response;
-                this.loadingSave = false;
-                if (data.type === 'success') {
-                    this.messageService.add({ severity: 'success', summary: 'Éxito', detail: data.listMessage[0] });
-                    this.hideModal();
-                    this.initialization();
-                } else {
-                    this.messageService.add({ severity: 'error', summary: 'Error', detail: data.listMessage[0] });
-                }
-            }).catch(() => {
-                this.loadingSave = false;
-                this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Algo salió mal al insertar.' });
-            });
-        }
+        const params = this.isEdit
+            ? { body: this.frmSpecialty.value }
+            : { body: { name: this.frmSpecialty.value.name } };
+        const apiCall = this.isEdit ? apispecialtyupdate : apispecialtyinsert;
+        const errorMsg = this.isEdit ? 'Algo salió mal al actualizar.' : 'Algo salió mal al insertar.';
+
+        this.api.invoke(apiCall, params).then((response: any) => {
+            const data = parseApiResponse(response);
+            this.loadingSave = false;
+            if (data.type === 'success') {
+                this.messageService.add({ severity: 'success', summary: 'Éxito', detail: data.listMessage[0] });
+                this.hideModal();
+                this.initialization();
+            } else {
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: data.listMessage[0] });
+            }
+        }).catch(() => {
+            this.loadingSave = false;
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: errorMsg });
+        });
     }
 
     confirmDelete(item: any): void {
@@ -143,7 +130,7 @@ export class SpecialtyGetAll implements OnInit {
 
     private deleteSpecialty(idSpecialty: string): void {
         this.api.invoke(apispecialtydelete, { idSpecialty }).then((response: any) => {
-            const data = typeof response === 'string' ? JSON.parse(response) : response;
+            const data = parseApiResponse(response);
             if (data.type === 'success') {
                 this.messageService.add({ severity: 'success', summary: 'Éxito', detail: data.listMessage[0] });
                 this.initialization();

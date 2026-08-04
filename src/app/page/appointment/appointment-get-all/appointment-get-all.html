@@ -4,7 +4,8 @@
     </ng-template>
     <ng-template #content>
         <p-table [value]="listAppointment" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" stripedRows
-            [globalFilterFields]="['code','personFullName','specialtyName','doctorFullName']" #dt>
+            [globalFilterFields]="['code','personFullName','specialtyName','doctorFullName']"
+            responsiveLayout="stack" breakpoint="900px" #dt>
             <ng-template #caption>
                 <div class="flex justify-end">
                     <p-iconfield>
@@ -28,18 +29,20 @@
             </ng-template>
             <ng-template #body let-item>
                 <tr>
-                    <td><span class="code-tag">{{ item.code }}</span></td>
+                    <td><span class="p-column-title">Código</span><span class="code-tag">{{ item.code }}</span></td>
                     <td>
+                        <span class="p-column-title">Paciente</span>
                         <div class="patient-cell">
                             <p-avatar [label]="getInitials(item.personFullName)" shape="circle" size="normal" />
                             <span>{{ item.personFullName }}</span>
                         </div>
                     </td>
-                    <td>{{ item.specialtyName }}</td>
-                    <td>{{ item.doctorFullName }}</td>
-                    <td>{{ item.preferredDate | date:'dd/MM/yyyy, h:mm a' }}</td>
-                    <td><p-tag [value]="item.status" [severity]="getSeverity(item.status)" /></td>
+                    <td><span class="p-column-title">Especialidad</span>{{ item.specialtyName }}</td>
+                    <td><span class="p-column-title">Doctor</span>{{ item.doctorFullName }}</td>
+                    <td><span class="p-column-title">Fecha y hora</span>{{ item.preferredDate | date:'dd/MM/yyyy, h:mm a' }}</td>
+                    <td><span class="p-column-title">Estado</span><p-tag [value]="item.status" [severity]="getSeverity(item.status)" /></td>
                     <td>
+                        <span class="p-column-title">Acciones</span>
                         <p-button icon="pi pi-eye" [text]="true" [rounded]="true" severity="info"
                             [routerLink]="['/appointment/detail', item.idAppointment]" pTooltip="Ver detalle" />
                     </td>

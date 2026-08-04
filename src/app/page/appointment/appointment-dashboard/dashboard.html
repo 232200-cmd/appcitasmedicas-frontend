@@ -50,6 +50,7 @@
                 [rows]="5"
                 [rowsPerPageOptions]="[5, 10, 20]"
                 [globalFilterFields]="['code','personFullName','specialtyName','doctorFullName']"
+                responsiveLayout="stack" breakpoint="900px"
                 #dt>
                 <ng-template #header>
                     <tr>
@@ -64,13 +65,14 @@
                 </ng-template>
                 <ng-template #body let-item>
                     <tr>
-                        <td><span class="code-tag">{{ item.code }}</span></td>
-                        <td class="patient-name">{{ item.personFullName }}</td>
-                        <td class="text-muted-cell">{{ item.specialtyName }}</td>
-                        <td class="text-muted-cell">{{ item.doctorFullName }}</td>
-                        <td class="text-muted-cell">{{ item.preferredDate | date:'d MMM yyyy, h:mm a' }}</td>
-                        <td><p-tag [value]="item.status" [severity]="getSeverity(item.status)" /></td>
+                        <td><span class="p-column-title">Código</span><span class="code-tag">{{ item.code }}</span></td>
+                        <td class="patient-name"><span class="p-column-title">Paciente</span>{{ item.personFullName }}</td>
+                        <td class="text-muted-cell"><span class="p-column-title">Especialidad</span>{{ item.specialtyName }}</td>
+                        <td class="text-muted-cell"><span class="p-column-title">Doctor</span>{{ item.doctorFullName }}</td>
+                        <td class="text-muted-cell"><span class="p-column-title">Fecha y hora</span>{{ item.preferredDate | date:'d MMM yyyy, h:mm a' }}</td>
+                        <td><span class="p-column-title">Estado</span><p-tag [value]="item.status" [severity]="getSeverity(item.status)" /></td>
                         <td>
+                            <span class="p-column-title">Acción</span>
                             <p-button label="Ver" icon="pi pi-eye" severity="secondary" [outlined]="true" size="small" [routerLink]="['/appointment/detail', item.idAppointment]" />
                         </td>
                     </tr>

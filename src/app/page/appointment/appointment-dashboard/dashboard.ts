@@ -10,6 +10,7 @@ import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { Api } from '../../../api/api';
 import { apiappointmentgetall } from '../../../api/functions';
+import { getAppointmentSeverity, parseApiResponse, SeverityType } from '../../../shared/shared-utils';
 
 @Component({
     selector: 'app-appointment-dashboard',
@@ -42,7 +43,7 @@ export class AppointmentDashboard implements OnInit {
     private initialization(): void {
         setTimeout(() => {
             this.api.invoke(apiappointmentgetall).then((response: any) => {
-                const data = typeof response === 'string' ? JSON.parse(response) : response;
+                const data = parseApiResponse(response);
                 this.listAppointment = data.listAppointment;
                 this.cdr.detectChanges();
             });
@@ -53,14 +54,7 @@ export class AppointmentDashboard implements OnInit {
         return this.listAppointment.filter(a => a.status === status).length;
     }
 
-    getSeverity(status: string): 'success' | 'info' | 'warn' | 'danger' | 'secondary' {
-        switch (status) {
-            case 'Pendiente de revisión': return 'warn';
-            case 'Visto': return 'info';
-            case 'En coordinación': return 'secondary';
-            case 'Cerrado': return 'success';
-            case 'Rechazado': return 'danger';
-            default: return 'info';
-        }
+    getSeverity(status: string): SeverityType {
+        return getAppointmentSeverity(status);
     }
 }

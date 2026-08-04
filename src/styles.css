@@ -5,6 +5,18 @@
     color: red;
 }
 
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
 /* ============================================
    FORZAR TEMA CLARO EN TODAS LAS TABLAS (p-table)
    Sobrescribe las variables CSS que usa PrimeNG
@@ -36,4 +48,14 @@
     --p-select-overlay-color: #111827;
     --p-select-option-color: #111827;
     --p-select-option-background: #ffffff;
+}
+
+/* ============================================
+   RESPONSIVIDAD DE TABLAS (MOBILE)
+   Oculta los títulos de columnas (p-column-title) en vista de escritorio
+   ============================================ */
+@media (min-width: 900px) {
+    .p-column-title {
+        display: none !important;
+    }
 }

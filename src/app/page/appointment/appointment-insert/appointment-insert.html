@@ -21,7 +21,7 @@
 
                     <div class="field-group">
                         <label for="ins-specialty" class="field-label">Especialidad</label>
-                        <p-select id="ins-specialty" [options]="listSpecialty" formControlName="specialty" optionLabel="name"
+                        <p-select inputId="ins-specialty" [options]="listSpecialty" formControlName="specialty" optionLabel="name"
                             placeholder="Seleccione una especialidad" class="w-full" />
                         @if ((specialtyFb.touched || specialtyFb.dirty) && specialtyFb.hasError('required')) {
                         <small class="errorMessage">Campo requerido.</small>
@@ -30,7 +30,7 @@
 
                     <div class="field-group">
                         <label for="ins-doctor" class="field-label"><i class="pi pi-id-card"></i> Doctor *</label>
-                        <p-select id="ins-doctor" [options]="listDoctor" formControlName="doctor" optionLabel="fullName"
+                        <p-select inputId="ins-doctor" [options]="listDoctor" formControlName="doctor" optionLabel="fullName"
                             [placeholder]="specialtyFb.value ? 'Seleccione un doctor' : 'Primero seleccione una especialidad'"
                             [disabled]="!specialtyFb.value" class="w-full" />
                         @if (specialtyFb.value && listDoctor.length === 0) {
@@ -43,7 +43,7 @@
 
                     <div class="field-group">
                         <label for="ins-date" class="field-label">Fecha</label>
-                        <p-datepicker id="ins-date" formControlName="preferredDate" [inline]="false" dateFormat="dd/mm/yy" [showTime]="true" hourFormat="12"
+                        <p-datepicker inputId="ins-date" formControlName="preferredDate" [inline]="false" dateFormat="dd/mm/yy" [showTime]="true" hourFormat="12"
                             [minDate]="minDate" placeholder="dd/mm/aaaa hh:mm am/pm" class="w-full" />
                         @if ((preferredDateFb.touched || preferredDateFb.dirty) && preferredDateFb.hasError('required'))
                         {

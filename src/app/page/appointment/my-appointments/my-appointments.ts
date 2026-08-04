@@ -5,6 +5,7 @@ import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
 import { Api } from '../../../api/api';
 import { apiappointmentgetall } from '../../../api/functions';
+import { getAppointmentSeverity, getAppointmentAvatarClass, parseApiResponse, SeverityType } from '../../../shared/shared-utils';
 
 @Component({
     selector: 'app-my-appointments',
@@ -33,32 +34,18 @@ export class MyAppointments implements OnInit {
     private initialization(): void {
         setTimeout(() => {
             this.api.invoke(apiappointmentgetall).then((response: any) => {
-                const data = typeof response === 'string' ? JSON.parse(response) : response;
+                const data = parseApiResponse(response);
                 this.listAppointment = data.listAppointment;
                 this.cdr.detectChanges();
             });
         }, 0);
     }
 
-    getSeverity(status: string): 'success' | 'info' | 'warn' | 'danger' | 'secondary' {
-        switch (status) {
-            case 'Pendiente de revisión': return 'warn';
-            case 'Visto': return 'info';
-            case 'En coordinación': return 'secondary';
-            case 'Cerrado': return 'success';
-            case 'Rechazado': return 'danger';
-            default: return 'info';
-        }
+    getSeverity(status: string): SeverityType {
+        return getAppointmentSeverity(status);
     }
 
     getAvatarClass(status: string): string {
-        switch (status) {
-            case 'Pendiente de revisión': return 'avatar-pending';
-            case 'Visto': return 'avatar-seen';
-            case 'En coordinación': return 'avatar-coordination';
-            case 'Cerrado': return 'avatar-closed';
-            case 'Rechazado': return 'avatar-refused';
-            default: return 'avatar-pending';
-        }
+        return getAppointmentAvatarClass(status);
     }
 }

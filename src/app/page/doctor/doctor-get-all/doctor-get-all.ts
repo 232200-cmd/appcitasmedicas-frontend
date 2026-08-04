@@ -13,6 +13,7 @@ import { SelectModule } from 'primeng/select';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Api } from '../../../api/api';
 import { apidoctorgetall, apidoctorinsert, apidoctorupdate, apidoctordelete, apispecialtygetall } from '../../../api/functions';
+import { getInitials, parseApiResponse } from '../../../shared/shared-utils';
 
 @Component({
     selector: 'app-doctor-get-all',
@@ -67,7 +68,7 @@ export class DoctorGetAll implements OnInit {
     private initialization(): void {
         setTimeout(() => {
             this.api.invoke(apidoctorgetall).then((response: any) => {
-                const data = typeof response === 'string' ? JSON.parse(response) : response;
+                const data = parseApiResponse(response);
                 this.listDoctor = data.listDoctor || [];
                 this.cdr.detectChanges();
             });
@@ -75,10 +76,13 @@ export class DoctorGetAll implements OnInit {
     }
 
     private loadSpecialties(): void {
-        this.api.invoke(apispecialtygetall).then((response: any) => {
-            const data = typeof response === 'string' ? JSON.parse(response) : response;
-            this.listSpecialty = data.listSpecialty || [];
-        });
+        setTimeout(() => {
+            this.api.invoke(apispecialtygetall).then((response: any) => {
+                const data = parseApiResponse(response);
+                this.listSpecialty = data.listSpecialty || [];
+                this.cdr.detectChanges();
+            });
+        }, 0);
     }
 
     showInsertModal(): void {
@@ -101,7 +105,6 @@ export class DoctorGetAll implements OnInit {
         this.displayModal = true;
     }
 
-    /** Permite solo dígitos al tipear */
     onlyNumbers(event: KeyboardEvent): boolean {
         const char = event.key;
         if (!/^\d$/.test(char)) {
@@ -116,7 +119,6 @@ export class DoctorGetAll implements OnInit {
         return true;
     }
 
-    /** Bloquea pegar texto no numérico o que exceda 9 dígitos */
     onPhonePaste(event: ClipboardEvent): void {
         event.preventDefault();
         const pasted = event.clipboardData?.getData('text') || '';
@@ -125,7 +127,6 @@ export class DoctorGetAll implements OnInit {
         this.frmDoctor.get('phoneNumber')?.markAsTouched();
     }
 
-    /** Sanitiza cualquier valor pegado o modificado de otra forma */
     onPhoneInput(event: Event): void {
         const input = event.target as HTMLInputElement;
         const cleaned = input.value.replace(/\D/g, '').slice(0, 9);
@@ -146,40 +147,24 @@ export class DoctorGetAll implements OnInit {
         }
 
         this.loadingSave = true;
-        
-        if (this.isEdit) {
-            const params = { body: this.frmDoctor.value };
-            this.api.invoke(apidoctorupdate, params).then((response: any) => {
-                const data = typeof response === 'string' ? JSON.parse(response) : response;
-                this.loadingSave = false;
-                if (data.type === 'success') {
-                    this.messageService.add({ severity: 'success', summary: 'Éxito', detail: data.listMessage[0] });
-                    this.hideModal();
-                    this.initialization();
-                } else {
-                    this.messageService.add({ severity: 'error', summary: 'Error', detail: data.listMessage[0] });
-                }
-            }).catch(() => {
-                this.loadingSave = false;
-                this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Algo salió mal al actualizar.' });
-            });
-        } else {
-            const params = { body: this.frmDoctor.value };
-            this.api.invoke(apidoctorinsert, params).then((response: any) => {
-                const data = typeof response === 'string' ? JSON.parse(response) : response;
-                this.loadingSave = false;
-                if (data.type === 'success') {
-                    this.messageService.add({ severity: 'success', summary: 'Éxito', detail: data.listMessage[0] });
-                    this.hideModal();
-                    this.initialization();
-                } else {
-                    this.messageService.add({ severity: 'error', summary: 'Error', detail: data.listMessage[0] });
-                }
-            }).catch(() => {
-                this.loadingSave = false;
-                this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Algo salió mal al insertar.' });
-            });
-        }
+        const params = { body: this.frmDoctor.value };
+        const apiCall = this.isEdit ? apidoctorupdate : apidoctorinsert;
+        const errorMsg = this.isEdit ? 'Algo salió mal al actualizar.' : 'Algo salió mal al insertar.';
+
+        this.api.invoke(apiCall, params).then((response: any) => {
+            const data = parseApiResponse(response);
+            this.loadingSave = false;
+            if (data.type === 'success') {
+                this.messageService.add({ severity: 'success', summary: 'Éxito', detail: data.listMessage[0] });
+                this.hideModal();
+                this.initialization();
+            } else {
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: data.listMessage[0] });
+            }
+        }).catch(() => {
+            this.loadingSave = false;
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: errorMsg });
+        });
     }
 
     confirmDelete(item: any): void {
@@ -198,7 +183,7 @@ export class DoctorGetAll implements OnInit {
 
     private deleteDoctor(idDoctor: string): void {
         this.api.invoke(apidoctordelete, { idDoctor }).then((response: any) => {
-            const data = typeof response === 'string' ? JSON.parse(response) : response;
+            const data = parseApiResponse(response);
             if (data.type === 'success') {
                 this.messageService.add({ severity: 'success', summary: 'Éxito', detail: data.listMessage[0] });
                 this.initialization();
@@ -211,9 +196,7 @@ export class DoctorGetAll implements OnInit {
     }
 
     getInitials(fullName: string): string {
-        if (!fullName) return '?';
-        const parts = fullName.trim().split(' ');
-        return parts.length > 1 ? (parts[0][0] + parts[1][0]).toUpperCase() : parts[0][0].toUpperCase();
+        return getInitials(fullName);
     }
 
     trimInput(controlName: string): void {

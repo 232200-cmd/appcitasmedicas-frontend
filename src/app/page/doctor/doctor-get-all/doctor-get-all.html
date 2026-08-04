@@ -24,6 +24,7 @@
                 [rows]="10"
                 [rowsPerPageOptions]="[10, 20, 50]"
                 [globalFilterFields]="['firstName','surName','email']"
+                responsiveLayout="stack" breakpoint="900px"
                 #dt>
                 <ng-template #header>
                     <tr>
@@ -37,19 +38,22 @@
                 <ng-template #body let-item>
                     <tr>
                         <td>
+                            <span class="p-column-title">Nombre completo</span>
                             <div class="doctor-cell">
                                 <p-avatar [label]="getInitials(item.fullName)" shape="circle" styleClass="doctor-avatar" />
                                 <span class="doctor-name">{{ item.fullName }}</span>
                             </div>
                         </td>
-                        <td class="text-muted-cell">{{ item.email }}</td>
+                        <td class="text-muted-cell"><span class="p-column-title">Correo electrónico</span>{{ item.email }}</td>
                         <td class="text-muted-cell">
+                            <span class="p-column-title">Teléfono</span>
                             <div class="cell-with-icon">
                                 <i class="pi pi-phone cell-icon"></i>
                                 <span>{{ item.phoneNumber || '—' }}</span>
                             </div>
                         </td>
                         <td>
+                            <span class="p-column-title">Especialidad</span>
                             @if (item.specialtyName) {
                                 <span class="specialty-badge">{{ item.specialtyName }}</span>
                             } @else {
@@ -57,6 +61,7 @@
                             }
                         </td>
                         <td>
+                            <span class="p-column-title">Acciones</span>
                             <div class="flex justify-content-center gap-2">
                                 <p-button icon="pi pi-pencil" [text]="true" [rounded]="true" severity="info" (onClick)="showEditModal(item)"></p-button>
                                 <p-button icon="pi pi-trash" [text]="true" [rounded]="true" severity="danger" (onClick)="confirmDelete(item)"></p-button>

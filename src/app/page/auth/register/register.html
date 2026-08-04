@@ -57,7 +57,7 @@
                     <i class="pi pi-lock"></i>
                     Contraseña
                 </label>
-                <p-password id="reg-password" formControlName="password" [feedback]="false" [toggleMask]="true" placeholder="Crea una contraseña segura" styleClass="w-full" inputStyleClass="w-full" (onInput)="onPasswordInput()" />
+                <p-password inputId="reg-password" formControlName="password" [feedback]="false" [toggleMask]="true" placeholder="Crea una contraseña segura" styleClass="w-full" inputStyleClass="w-full" (onInput)="onPasswordInput()" />
 
                 <!-- Strength bar -->
                 @if (passwordValue().length > 0) {

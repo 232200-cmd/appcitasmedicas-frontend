@@ -23,12 +23,24 @@
     margin-bottom: 1.5rem;
 }
 
-/* ── Tabla ───────────────────────────────────────────── */
+@media (max-width: 600px) {
+    .page-header-flex {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+    }
+
+    .table-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+    }
+}
 
 :host ::ng-deep .table-card {
     background: #ffffff !important;
     border-radius: 12px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
     border: 1px solid #e5e7eb;
 }
 
@@ -68,7 +80,7 @@
 }
 
 .specialty-icon-wrap .pi {
-    color: #0d9488;
+    color: #115e59;
     font-size: 0.9rem;
 }
 
@@ -78,26 +90,31 @@
 }
 
 /* PrimeNG tabla overrides */
-:host ::ng-deep .p-datatable { background: #ffffff !important; }
-:host ::ng-deep .p-datatable-table { background: #ffffff !important; }
+:host ::ng-deep .p-datatable {
+    background: #ffffff !important;
+}
 
-:host ::ng-deep .p-datatable-thead > tr > th {
+:host ::ng-deep .p-datatable-table {
+    background: #ffffff !important;
+}
+
+:host ::ng-deep .p-datatable-thead>tr>th {
     background: #f8fafc !important;
     color: #0f2540 !important;
     border-color: #e5e7eb !important;
     font-weight: 700 !important;
 }
 
-:host ::ng-deep .p-datatable-tbody > tr {
+:host ::ng-deep .p-datatable-tbody>tr {
     background: #ffffff !important;
     color: #111827 !important;
 }
 
-:host ::ng-deep .p-datatable-tbody > tr:hover {
+:host ::ng-deep .p-datatable-tbody>tr:hover {
     background: #f8fafc !important;
 }
 
-:host ::ng-deep .p-datatable-tbody > tr > td {
+:host ::ng-deep .p-datatable-tbody>tr>td {
     border-color: #e5e7eb !important;
     color: #111827 !important;
 }
@@ -113,13 +130,10 @@
     border-color: #d1d5db !important;
 }
 
-/* ── Formulario Modal ───────────────────────────────── */
-
 .form-modal {
     padding: 0.25rem 0 0 0;
 }
 
-/* Cabecera decorativa */
 .form-icon-header {
     display: flex;
     align-items: center;
@@ -154,7 +168,6 @@
     line-height: 1.4;
 }
 
-/* Campo */
 .form-field {
     display: flex;
     flex-direction: column;
@@ -193,7 +206,6 @@
     gap: 0.3rem;
 }
 
-/* Acciones */
 .form-actions {
     display: flex;
     justify-content: flex-end;
